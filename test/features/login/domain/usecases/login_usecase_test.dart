@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mady_admin/core/usecases/usecase.dart';
 import 'package:mady_admin/features/login/domain/entities/admin.dart';
 import 'package:mady_admin/features/login/domain/repositories/login_repository.dart';
 import 'package:mady_admin/features/login/domain/usecases/login_usecase.dart';
@@ -20,6 +21,7 @@ void main() {
 
   String username = 'saeed';
   String password = 'saeed';
+  Params params = Params({'username': username, 'password': password});
   Admin admin = Admin(1, username);
 
   test(
@@ -27,13 +29,13 @@ void main() {
     () async {
       //arrange
       when(repository.doLogin(any)).thenAnswer((_) async => Right(admin));
+
       //act
-      final result =
-          await usecase.login({'username': username, 'password': password});
+      final result = await usecase(params);
 
       //assert
       expect(result, Right(admin));
-      verify(repository.doLogin({'username': username, 'password': password}));
+      verify(repository.doLogin(params));
       verifyNoMoreInteractions(repository);
     },
   );
