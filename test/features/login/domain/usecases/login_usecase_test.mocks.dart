@@ -6,6 +6,7 @@ import 'dart:async' as _i4;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mady_admin/core/error/failures.dart' as _i5;
+import 'package:mady_admin/core/usecases/usecase.dart';
 import 'package:mady_admin/features/login/domain/entities/admin.dart' as _i6;
 import 'package:mady_admin/features/login/domain/repositories/login_repository.dart'
     as _i3;
@@ -32,8 +33,7 @@ class MockLoginRepository extends _i1.Mock implements _i3.LoginRepository {
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.Admin>> doLogin(
-          Map<String, dynamic>? data) =>
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Admin>> doLogin(Params? data) =>
       (super.noSuchMethod(Invocation.method(#doLogin, [data]),
               returnValue: Future<_i2.Either<_i5.Failure, _i6.Admin>>.value(
                   _FakeEither_0<_i5.Failure, _i6.Admin>()))
