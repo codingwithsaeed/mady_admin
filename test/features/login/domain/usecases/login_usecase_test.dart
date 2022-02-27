@@ -22,20 +22,20 @@ void main() {
   String username = 'saeed';
   String password = 'saeed';
   Params params = Params({'username': username, 'password': password});
-  Admin admin = Admin(1, username);
+  Admin admin = Admin('1', username);
 
   test(
     "should get admin from repository",
     () async {
       //arrange
-      when(repository.doLogin(any)).thenAnswer((_) async => Right(admin));
+      when(repository.authenticate(any)).thenAnswer((_) async => Right(admin));
 
       //act
       final result = await usecase(params);
 
       //assert
       expect(result, Right(admin));
-      verify(repository.doLogin(params));
+      verify(repository.authenticate(params));
       verifyNoMoreInteractions(repository);
     },
   );
