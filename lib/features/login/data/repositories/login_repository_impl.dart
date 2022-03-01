@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/core/network/network_info.dart';
 import 'package:mady_admin/features/login/data/datasources/login_remote_datasource.dart';
@@ -17,15 +19,17 @@ class LoginRepositoryImpl implements LoginRepository {
 
   @override
   Future<Either<Failure, Admin>> authenticate(Params params) async {
-    if (!await networkInfo.isConnected) {
-      return Left(ServerFailure(message: NO_INTERNET_CONNECTION));
-    }
-
     try {
+      if (!await networkInfo.isConnected) {
+        return Left(ServerFailure(message: NO_INTERNET_CONNECTION));
+      }
+
       final adminModel = await dataSource.authenticate(params);
       return Right(adminModel.data!);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
+    } on SocketException {
+      return Left(ServerFailure(message: 'دستگاه به اینترنت متصل نیست'));
     }
   }
 }

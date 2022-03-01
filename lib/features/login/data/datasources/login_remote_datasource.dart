@@ -20,7 +20,7 @@ class LoginRemoteDataSourceImpl implements LoginRemoteDataSource {
 
   @override
   Future<AdminModel> authenticate(Params params) async {
-    final result = await client.post(url, body: params);
+    final result = await client.post(url, body: params.param);
     if (result.statusCode == 200) {
       AdminModel model = AdminModel.fromJson(jsonDecode(result.body));
       if (model.success == 1) {
