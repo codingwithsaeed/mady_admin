@@ -1,0 +1,29 @@
+{
+    "success": 1,
+    "data": [
+        {
+            "srid": "2",
+            "storeName": "2 \u0639\u0637\u0631 \u0622\u0648\u06cc\u0634\u0646",
+            "phone": "+989136581815",
+            "category": "ATARI",
+            "address": "\u0627\u0635\u0641\u0647\u0627\u0646 - \u0645\u06cc\u062f\u0627\u0646 \u0633\u0647\u0631\u0648\u0631\u062f\u06cc",
+            "website": "www.avishan.co",
+            "logo": "http:\/\/192.168.1.2\/mady\/uploads\/logo\/avish.jpg",
+            "lat": "32",
+            "lng": "51",
+            "pocket": "1"
+        },
+        {
+            "srid": "1",
+            "storeName": "\u0639\u0637\u0631 \u0622\u0648\u06cc\u0634\u0646",
+            "phone": "+989136581814",
+            "category": "ATARI",
+            "address": "\u0627\u0635\u0641\u0647\u0627\u0646 - \u0645\u06cc\u062f\u0627\u0646 \u0627\u0646\u0642\u0644\u0627\u0628",
+            "website": "www.avishan.co",
+            "logo": "http:\/\/192.168.1.2\/mady\/uploads\/logo\/avish.jpg",
+            "lat": "32",
+            "lng": "51",
+            "pocket": "1"
+        }
+    ]
+}
