@@ -27,10 +27,13 @@ class LoginCubit extends Cubit<LoginState> {
     final res = await loginUsecase(
       Params({'username': username, 'password': password, 'action': 'signin'}),
     );
-    res.fold((failure) {
-      if (failure is ServerFailure) emit(ErrorState(failure.message));
-    }, (admin) {
-      emit(LoadedState(admin));
-    });
+    res.fold(
+      (failure) {
+        if (failure is ServerFailure) emit(ErrorState(failure.message));
+      },
+      (admin) {
+        emit(LoadedState(admin));
+      },
+    );
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/core/network/network_info.dart';
 import 'package:mady_admin/features/login/data/datasources/login_remote_datasource.dart';
@@ -9,7 +7,7 @@ import 'package:mady_admin/core/errors/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mady_admin/features/login/domain/repositories/login_repository.dart';
 
-const NO_INTERNET_CONNECTION = "No intenet connection";
+const NO_INTERNET_CONNECTION = 'دستگاه به اینترنت متصل نیست';
 
 class LoginRepositoryImpl implements LoginRepository {
   final LoginRemoteDataSource dataSource;

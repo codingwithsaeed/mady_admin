@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:http/http.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:mady_admin/core/network/network_info.dart';
+import 'package:mady_admin/features/login/data/datasources/login_remote_datasource.dart';
+import 'package:mady_admin/features/login/data/repositories/login_repository_impl.dart';
+import 'package:mady_admin/features/login/domain/usecases/login_usecase.dart';
 import 'package:mady_admin/features/login/presentation/cubit/login_cubit.dart';
-import 'package:mady_admin/features/login/presentation/pages/main_page.dart';
+import 'package:mady_admin/main_page.dart';
+import 'package:mady_admin/routes/router.gr.dart';
 import 'widgets/fa_text_field.dart';
 import 'widgets/naterial_button.dart';
+import 'package:auto_route/auto_route.dart';
 
 class LoginPage extends StatelessWidget {
-  static const String id = 'LOGIN_PAGE';
   LoginPage({Key? key}) : super(key: key);
 
   String? username;
@@ -15,6 +22,20 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => LoginCubit(
+        LoginUsecase(
+          LoginRepositoryImpl(
+            dataSource: LoginRemoteDataSourceImpl(client: Client()),
+            networkInfo: NetworkInfoImpl(InternetConnectionChecker()),
+          ),
+        ),
+      ),
+      child: buildBody(context),
+    );
+  }
+
+  Widget buildBody(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -28,7 +49,7 @@ class LoginPage extends StatelessWidget {
           } else if (state is LoadedState) {
             FocusManager.instance.primaryFocus!.unfocus();
             Navigator.of(context).pop();
-            Navigator.pushNamed(context, MainPage.id);
+            context.router.push(const MainRoute());
           } else if (state is ErrorState) {
             Navigator.of(context).pop();
             FocusManager.instance.primaryFocus!.unfocus();
