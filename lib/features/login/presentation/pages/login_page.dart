@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:mady_admin/core/usecases/usecase.dart';
 import 'package:mady_admin/features/login/presentation/cubit/login_cubit.dart';
 import 'package:mady_admin/features/login/presentation/pages/main_page.dart';
 import 'widgets/fa_text_field.dart';
@@ -11,9 +10,8 @@ class LoginPage extends StatelessWidget {
   static const String id = 'LOGIN_PAGE';
   LoginPage({Key? key}) : super(key: key);
 
-   String? username;
-   String? password;
-
+  String? username;
+  String? password;
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +23,25 @@ class LoginPage extends StatelessWidget {
       body: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state is LodingState) {
-          
+            FocusManager.instance.primaryFocus!.unfocus();
             showLoading(context);
           } else if (state is LoadedState) {
+            FocusManager.instance.primaryFocus!.unfocus();
             Navigator.of(context).pop();
             Navigator.pushNamed(context, MainPage.id);
           } else if (state is ErrorState) {
             Navigator.of(context).pop();
-            Scaffold.of(context).showSnackBar(SnackBar(
-              content: Text(state.message),
-              backgroundColor: Colors.red,
-            ));
+            FocusManager.instance.primaryFocus!.unfocus();
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  state.message,
+                  style: const TextStyle(fontFamily: 'Vazir'),
+                ),
+                duration: const Duration(seconds: 1),
+                backgroundColor: Colors.red,
+              ),
+            );
           }
         },
         builder: (context, state) {
@@ -59,7 +65,6 @@ class LoginPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               FaTextField(
-              
                 icon: Icons.person_pin,
                 hint: 'نام کاربری',
                 onChanged: (value) {
@@ -67,7 +72,6 @@ class LoginPage extends StatelessWidget {
                 },
               ),
               FaTextField(
-              
                 icon: Icons.password_outlined,
                 hint: 'گذر واژه',
                 obscureText: true,
@@ -79,7 +83,7 @@ class LoginPage extends StatelessWidget {
                 title: 'ورود',
                 onPressed: (() {
                   LoginCubit cubit = BlocProvider.of(context);
-                  cubit.doAuth(username!, password!);
+                  cubit.doAuth(username, password);
                 }),
                 color: Colors.red,
               ),

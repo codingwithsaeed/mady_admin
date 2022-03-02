@@ -28,8 +28,8 @@ class LoginRepositoryImpl implements LoginRepository {
       return Right(adminModel.data!);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
-    } on SocketException {
-      return Left(ServerFailure(message: 'دستگاه به اینترنت متصل نیست'));
+    } on Exception {
+      return Left(ServerFailure(message: 'مشکلی در اتصال به سرور وجود دارد'));
     }
   }
 }

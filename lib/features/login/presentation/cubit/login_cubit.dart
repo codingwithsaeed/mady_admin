@@ -11,8 +11,19 @@ class LoginCubit extends Cubit<LoginState> {
   final LoginUsecase loginUsecase;
   LoginCubit(this.loginUsecase) : super(const InitialState());
 
-  Future<void> doAuth(String username, String password) async {
+  Future<void> doAuth(String? username, String? password) async {
     emit(const LodingState());
+
+    if (username == null || username == '') {
+      emit(const ErrorState('نام کاربری را وارد کنید'));
+      return;
+    }
+
+    if (password == null || password == '') {
+      emit(const ErrorState('گذرواژه را وارد کنید'));
+      return;
+    }
+
     final res = await loginUsecase(
       Params({'username': username, 'password': password, 'action': 'signin'}),
     );
