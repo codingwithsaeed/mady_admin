@@ -6,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mady_admin/core/utils/show_snackbar.dart';
 import 'package:mady_admin/features/request/domain/entities/request.dart';
 import 'package:mady_admin/features/request/presentation/cubit/request_cubit.dart';
+import 'package:mady_admin/features/request/presentation/pages/single_request_page.dart';
 import 'package:mady_admin/injection.dart';
 
 class RequestsPage extends StatefulWidget {
@@ -72,14 +73,8 @@ class _RequestsPageState extends State<RequestsPage>
           else
             return buildEmptyBody();
         } else {
-          return Center(
-            child: MaterialButton(
-              color: Colors.red,
-              child: const Text('درخواست ها'),
-              onPressed: () {
-                BlocProvider.of<RequestCubit>(context).getRequests();
-              },
-            ),
+          return const Center(
+            child: Text('درخواست ها'),
           );
         }
       },
@@ -95,6 +90,10 @@ class _RequestsPageState extends State<RequestsPage>
               backgroundImage: NetworkImage(requests[index].logo),
             ),
             title: Text(requests[index].storeName),
+            onTap: () {
+              Navigator.pushNamed(context, SingleRequestPage.id,
+                  arguments: requests[index]);
+            },
           ),
         );
       },
