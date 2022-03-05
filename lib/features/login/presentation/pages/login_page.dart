@@ -1,20 +1,19 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:http/http.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:mady_admin/core/network/network_info.dart';
-import 'package:mady_admin/features/login/data/datasources/login_remote_datasource.dart';
-import 'package:mady_admin/features/login/data/repositories/login_repository_impl.dart';
-import 'package:mady_admin/features/login/domain/usecases/login_usecase.dart';
+import 'package:injectable/injectable.dart';
+import 'package:mady_admin/core/utils/show_loading.dart';
+import 'package:mady_admin/core/utils/show_snackbar.dart';
 import 'package:mady_admin/features/login/presentation/cubit/login_cubit.dart';
+import 'package:mady_admin/injection.dart';
 import 'package:mady_admin/main_page.dart';
-import 'package:mady_admin/routes/router.gr.dart';
 import 'widgets/fa_text_field.dart';
 import 'widgets/naterial_button.dart';
-import 'package:auto_route/auto_route.dart';
+
 
 class LoginPage extends StatelessWidget {
+  static const String id = 'LoginPage';
   LoginPage({Key? key}) : super(key: key);
 
   String? username;
@@ -23,14 +22,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(
-        LoginUsecase(
-          LoginRepositoryImpl(
-            dataSource: LoginRemoteDataSourceImpl(client: Client()),
-            networkInfo: NetworkInfoImpl(InternetConnectionChecker()),
-          ),
-        ),
-      ),
+      create: (context) => getIt<LoginCubit>(),
       child: buildBody(context),
     );
   }
@@ -49,20 +41,11 @@ class LoginPage extends StatelessWidget {
           } else if (state is LoadedState) {
             FocusManager.instance.primaryFocus!.unfocus();
             Navigator.of(context).pop();
-            context.router.push(const MainRoute());
+            Navigator.pushNamed(context, MainPage.id);
           } else if (state is ErrorState) {
             Navigator.of(context).pop();
             FocusManager.instance.primaryFocus!.unfocus();
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  state.message,
-                  style: const TextStyle(fontFamily: 'Vazir'),
-                ),
-                duration: const Duration(seconds: 1),
-                backgroundColor: Colors.red,
-              ),
-            );
+            showSnackbar(context, state.message);
           }
         },
         builder: (context, state) {
@@ -113,24 +96,5 @@ class LoginPage extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  Future<dynamic> showLoading(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return Dialog(
-            backgroundColor: Colors.red.withOpacity(0.1),
-            insetPadding: const EdgeInsets.all(0.0),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: SpinKitThreeBounce(
-                color: Colors.red.shade900,
-                size: 50.0,
-              ),
-            ),
-          );
-        });
   }
 }

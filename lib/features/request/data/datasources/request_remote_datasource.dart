@@ -1,5 +1,8 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'dart:convert';
 
+import 'package:injectable/injectable.dart';
 import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/features/login/data/repositories/login_repository_impl.dart';
 import 'package:mady_admin/features/request/data/models/request_model.dart';
@@ -14,22 +17,23 @@ abstract class RequestRemoteSource {
 
 final url = Uri.parse('http://192.168.1.2/mady/webservice_admin.php');
 
+@Injectable(as: RequestRemoteSource)
 class RequestRemoteSourceImpl implements RequestRemoteSource {
   final http.Client client;
 
   RequestRemoteSourceImpl({required this.client});
   @override
   Future<RequestModel> getRequests() async {
-    final result = await client.post(url);
+    final result =
+        await client.post(url, body: {'action': 'get_seller_requests'});
     if (result.statusCode == 200) {
       RequestModel model = RequestModel.fromJson(jsonDecode(result.body));
-      if (model.success == 1) {
+      if (model.success == 1)
         return model;
-      } else if (model.success == 0) {
+      else if (model.success == 0)
         return RequestModel(success: model.success, data: const <Request>[]);
-      } else {
+      else
         throw ServerException(message: NO_INTERNET_CONNECTION);
-      }
     } else {
       throw ServerException(message: 'error code: ${result.statusCode}');
     }

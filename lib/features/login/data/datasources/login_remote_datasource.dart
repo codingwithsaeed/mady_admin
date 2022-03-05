@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:injectable/injectable.dart';
 import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/core/usecases/usecase.dart';
 import 'package:mady_admin/features/login/data/models/admin_model.dart';
@@ -13,6 +14,7 @@ abstract class LoginRemoteDataSource {
 
 final url = Uri.parse('http://192.168.1.2/mady/webservice_admin.php');
 
+@Injectable(as: LoginRemoteDataSource)
 class LoginRemoteDataSourceImpl implements LoginRemoteDataSource {
   final http.Client client;
 

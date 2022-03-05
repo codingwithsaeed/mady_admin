@@ -1,11 +1,10 @@
-import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 
 class SingleSellerPage extends StatelessWidget {
   final int sellerId;
   const SingleSellerPage({
     Key? key,
-    @PathParam() required this.sellerId,
+    required this.sellerId,
   }) : super(key: key);
 
   @override

@@ -1,3 +1,4 @@
+import 'package:injectable/injectable.dart';
 import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/core/network/network_info.dart';
 import 'package:mady_admin/features/login/data/datasources/login_remote_datasource.dart';
@@ -9,6 +10,7 @@ import 'package:mady_admin/features/login/domain/repositories/login_repository.d
 
 const NO_INTERNET_CONNECTION = 'دستگاه به اینترنت متصل نیست';
 
+@Injectable(as: LoginRepository)
 class LoginRepositoryImpl implements LoginRepository {
   final LoginRemoteDataSource dataSource;
   final NetworkInfo networkInfo;

@@ -30,15 +30,14 @@ void main() {
       "Should perform a post request with proper params.",
       () async {
         //arrange
-        when(client.post(any)).thenAnswer(
+        when(client.post(any, body: anyNamed('body'))).thenAnswer(
             (_) async => http.Response(fixture('request_model.json'), 200));
         //act
         sut.getRequests();
         //assert
         verify(
-          client.post(
-            Uri.parse('http://192.168.1.2/mady/webservice_admin.php'),
-          ),
+          client.post(Uri.parse('http://192.168.1.2/mady/webservice_admin.php'),
+              body: {'action': 'get_seller_requests'}),
         );
       },
     );
@@ -47,7 +46,7 @@ void main() {
       "Should return [RequestModel] when request is successfull 200",
       () async {
         //arrange
-        when(client.post(any)).thenAnswer(
+        when(client.post(any, body: anyNamed('body'))).thenAnswer(
             (_) async => http.Response(fixture('request_model.json'), 200));
         //act
         final result = await sut.getRequests();
@@ -60,7 +59,7 @@ void main() {
       "Should throws [ServerException] when request is unsuccessfull",
       () async {
         //arrange
-        when(client.post(any)).thenAnswer(
+        when(client.post(any, body: anyNamed('body'))).thenAnswer(
             (_) async => http.Response(fixture('failed_login.json'), 404));
         //act
         final call = sut.getRequests;

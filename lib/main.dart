@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:mady_admin/routes/router.gr.dart';
+import 'package:mady_admin/features/login/presentation/pages/login_page.dart';
+import 'package:mady_admin/injection.dart';
+import 'package:mady_admin/main_page.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  configureInjection();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _appRouter = AppRouter();
 
-    return MaterialApp.router(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      routerDelegate: _appRouter.delegate(),
-      routeInformationParser: _appRouter.defaultRouteParser(),
       theme: ThemeData(
         primarySwatch: Colors.red,
         fontFamily: 'Vazir',
       ),
+      initialRoute: LoginPage.id,
+      routes: {
+        LoginPage.id: (context) => LoginPage(),
+        MainPage.id: (context) => const MainPage(),
+      },
     );
   }
 }
