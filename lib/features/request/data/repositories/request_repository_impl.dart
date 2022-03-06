@@ -1,6 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/core/network/network_info.dart';
+import 'package:mady_admin/core/usecases/usecase.dart';
 import 'package:mady_admin/features/login/data/repositories/login_repository_impl.dart';
 import 'package:mady_admin/features/request/data/datasources/request_remote_datasource.dart';
 import 'package:mady_admin/features/request/domain/entities/request.dart';
@@ -28,5 +29,11 @@ class RequestRepositoryImpl implements RequestRepository {
     } on Exception {
       return Left(ServerFailure(message: 'مشکلی در اتصال به سرور وجود دارد'));
     }
+  }
+
+  @override
+  Future<Either<Failure, bool>> verifyRequest(Params params) {
+    // TODO: implement verifyRequest
+    throw UnimplementedError();
   }
 }

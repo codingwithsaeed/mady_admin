@@ -6,6 +6,7 @@ import 'dart:async' as _i4;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mady_admin/core/errors/failures.dart' as _i5;
+import 'package:mady_admin/core/usecases/usecase.dart' as _i7;
 import 'package:mady_admin/features/request/domain/entities/request.dart'
     as _i6;
 import 'package:mady_admin/features/request/domain/repositories/request_repository.dart'
@@ -38,4 +39,10 @@ class MockRequestRepository extends _i1.Mock implements _i3.RequestRepository {
           returnValue: Future<_i2.Either<_i5.Failure, List<_i6.Request>>>.value(
               _FakeEither_0<_i5.Failure, List<_i6.Request>>())) as _i4
           .Future<_i2.Either<_i5.Failure, List<_i6.Request>>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, bool>> verifyRequest(_i7.Params? params) =>
+      (super.noSuchMethod(Invocation.method(#verifyRequest, [params]),
+              returnValue: Future<_i2.Either<_i5.Failure, bool>>.value(
+                  _FakeEither_0<_i5.Failure, bool>()))
+          as _i4.Future<_i2.Either<_i5.Failure, bool>>);
 }

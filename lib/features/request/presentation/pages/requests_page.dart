@@ -27,107 +27,78 @@ class _RequestsPageState extends State<RequestsPage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      body: initCubit(),
-    );
-  }
-
-  BlocProvider<RequestCubit> initCubit() {
-    return BlocProvider(
-      create: (context) => getIt<RequestCubit>()..getRequests(),
-      child: buildBody(),
+      body: BlocProvider(
+        create: (context) => getIt<RequestCubit>()..getRequests(),
+        child: buildBody(),
+      ),
     );
   }
 
   Widget buildBody() {
     return BlocConsumer<RequestCubit, RequestState>(
-      listener: (context, state) {
-        if (state is RequestLoading) {
-          if (!isLoading) {
-            showLoading(context);
-
-            setState(() {
-              isLoading = true;
-            });
-          }
-        } else if (state is RequestLoaded) {
-          if (isLoading) {
-            Navigator.of(context).pop();
-            setState(() {
-              isLoading = false;
-            });
-          }
-        } else if (state is RequestError) {
-          if (isLoading) {
-            Navigator.of(context).pop();
-            setState(() {
-              isLoading = false;
-            });
-          }
-          showSnackbar(context, state.message);
-        }
-      },
-      builder: (context, state) {
-        if (state is RequestLoaded) {
-          if (state.requests.isNotEmpty)
-            return buildRequestList(context, state.requests);
-          else
-            return buildEmptyBody();
-        } else {
-          return const Center(
-            child: Text('درخواست ها'),
-          );
-        }
-      },
+      listener: cubitListener,
+      builder: cubitBuilder,
     );
+  }
+
+  Widget cubitBuilder(context, state) {
+    if (state is RequestLoaded) {
+      if (state.requests.isNotEmpty)
+        return buildRequestList(context, state.requests);
+      return buildEmptyBody();
+    }
+    return const Center(child: Text('...'));
+  }
+
+  void cubitListener(context, state) {
+    if (state is RequestLoading) {
+      if (!isLoading) {
+        showLoading(context);
+        setState(() => isLoading = true);
+      }
+    } else {
+      if (isLoading) {
+        Navigator.of(context).pop();
+        setState(() => isLoading = false);
+      }
+      if (state is RequestError) showSnackbar(context, state.message);
+    }
   }
 
   Widget buildRequestList(BuildContext context, List<Request> requests) {
     return ListView.builder(
-      itemBuilder: (context, index) {
-        return Card(
-          child: ListTile(
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(requests[index].logo),
-            ),
-            title: Text(requests[index].storeName),
-            onTap: () {
-              Navigator.pushNamed(context, SingleRequestPage.id,
-                  arguments: requests[index]);
-            },
+      itemBuilder: (context, index) => Card(
+        child: ListTile(
+          leading: CircleAvatar(
+            backgroundImage: NetworkImage(requests[index].logo),
           ),
-        );
-      },
+          title: Text(requests[index].storeName),
+          onTap: () => Navigator.pushNamed(context, SingleRequestPage.id,
+              arguments: requests[index]),
+        ),
+      ),
       itemCount: requests.length,
       shrinkWrap: true,
       padding: const EdgeInsets.all(5.0),
     );
   }
 
-  Widget buildEmptyBody() {
-    return const Center(
-      child: Text(
-        'هیچ درخواستی وجود ندارد',
-        style: TextStyle(fontSize: 20.0),
-      ),
-    );
-  }
+  Widget buildEmptyBody() => const Center(
+      child: Text('هیچ درخواستی وجود ندارد', style: TextStyle(fontSize: 20.0)));
 
-  Future<dynamic> showLoading(BuildContext context) {
-    return showDialog(
+  Future<dynamic> showLoading(BuildContext context) => showDialog(
         context: context,
-        builder: (context) {
-          return Dialog(
-            backgroundColor: Colors.red.withOpacity(0.1),
-            insetPadding: const EdgeInsets.all(0.0),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: SpinKitThreeBounce(
-                color: Colors.red.shade900,
-                size: 50.0,
-              ),
+        builder: (context) => Dialog(
+          backgroundColor: Colors.red.withOpacity(0.1),
+          insetPadding: const EdgeInsets.all(0.0),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: SpinKitThreeBounce(
+              color: Colors.red.shade900,
+              size: 50.0,
             ),
-          );
-        });
-  }
+          ),
+        ),
+      );
 }

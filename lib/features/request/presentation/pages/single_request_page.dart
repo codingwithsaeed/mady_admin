@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mady_admin/features/request/domain/entities/request.dart';
+import 'package:mady_admin/features/request/presentation/cubit/request_cubit.dart';
+
+import 'widgets.dart';
 
 class SingleRequestPage extends StatelessWidget {
   static const id = 'SingleRequestPage';
@@ -22,142 +26,75 @@ class SingleRequestPage extends StatelessWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 10.0,
-            ),
-            CircleLogo(logo: request.logo),
-            const SizedBox(
-              height: 10.0,
-            ),
-            DetailsCard(
-              title: 'نام فروشگاه: ${request.storeName}',
-            ),
-            DetailsCard(
-              title: 'شماره موبایل: ${request.phone.replaceFirst('+98', '0')}',
-            ),
-            DetailsCard(
-              title: 'دسته بندی: ${request.category}',
-            ),
-            DetailsCard(
-              title: 'آدرس: ${request.address}',
-            ),
-            Card(
-              child: SizedBox(
-                width: double.infinity,
-                height: 300,
-                child: GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(
-                      double.parse(request.lat),
-                      double.parse(request.lng),
-                    ),
-                    zoom: 16.8,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 10.0,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: MaterialButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      onPressed: () {},
-                      color: Colors.red,
-                      child: const Text(
-                        'رد درخواست',
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                      textColor: Colors.white,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: MaterialButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      onPressed: () {},
-                      color: Colors.green,
-                      child: const Text(
-                        'قبول درخواست',
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                      textColor: Colors.white,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 10.0,
-            ),
-          ],
-        ),
+      body: BlocConsumer<RequestCubit, RequestState>(
+        listener: (context, state) {
+          print(state.runtimeType);
+        },
+        builder: (context, state) {
+          return buildBody(request);
+        },
       ),
     );
   }
-}
 
-class CircleLogo extends StatelessWidget {
-  const CircleLogo({
-    Key? key,
-    required this.logo,
-  }) : super(key: key);
-
-  final String logo;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        CircleAvatar(
-          radius: 80.0,
-          backgroundImage: NetworkImage(logo),
-        ),
-      ],
-      alignment: AlignmentDirectional.center,
-    );
-  }
-}
-
-class DetailsCard extends StatelessWidget {
-  const DetailsCard({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 3.0),
-      child: ListTile(
-          title: Text(
-            title,
-            textDirection: TextDirection.rtl,
-            textAlign: TextAlign.right,
-            style: const TextStyle(
-              fontSize: 20.0,
+  Widget buildBody(Request request) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 10.0,
+          ),
+          CircleLogo(logo: request.logo),
+          const SizedBox(
+            height: 10.0,
+          ),
+          DetailsCard(
+            title: 'نام فروشگاه: ${request.storeName}',
+          ),
+          DetailsCard(
+            title: 'شماره موبایل: ${request.phone.replaceFirst('+98', '0')}',
+          ),
+          DetailsCard(
+            title: 'دسته بندی: ${request.category}',
+          ),
+          DetailsCard(
+            title: 'آدرس: ${request.address}',
+          ),
+          Card(
+            child: SizedBox(
+              width: double.infinity,
+              height: 200,
+              child: GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(
+                    double.parse(request.lat),
+                    double.parse(request.lng),
+                  ),
+                  zoom: 16.8,
+                ),
+              ),
             ),
           ),
-          horizontalTitleGap: 10.0,
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 3, horizontal: 15)),
+          const SizedBox(
+            height: 10.0,
+          ),
+          Row(
+            children: [
+              AcceptanceButton(
+                color: Colors.red,
+                title: 'رد درخواست',
+                onPressed: () {},
+              ),
+              AcceptanceButton(
+                color: Colors.green,
+                title: 'قبول درخواست',
+                onPressed: () {},
+              ),
+            ],
+          ),
+          const SizedBox(height: 10.0),
+        ],
+      ),
     );
   }
 }
