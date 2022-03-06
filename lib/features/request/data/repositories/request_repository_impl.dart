@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:injectable/injectable.dart';
 import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/core/network/network_info.dart';
@@ -32,8 +34,15 @@ class RequestRepositoryImpl implements RequestRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> verifyRequest(Params params) {
-    // TODO: implement verifyRequest
-    throw UnimplementedError();
+  Future<Either<Failure, bool>> verifyRequest(Params params) async {
+    try {
+      if (!await networkInfo.isConnected)
+        return Left(ServerFailure(message: NO_INTERNET_CONNECTION));
+      final result = await dataSource.verifyRequest(params.param);
+      if (result) return Right(result);
+      return Left(ServerFailure(message: NOT_FOUND_EX));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    }
   }
 }

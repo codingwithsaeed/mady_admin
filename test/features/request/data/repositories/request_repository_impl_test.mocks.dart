@@ -37,6 +37,10 @@ class MockRequestRemoteSource extends _i1.Mock
           Invocation.method(#getRequests, []),
           returnValue: Future<_i2.RequestModel>.value(_FakeRequestModel_0()))
       as _i4.Future<_i2.RequestModel>);
+  @override
+  _i4.Future<bool> verifyRequest(Map<String, dynamic>? params) =>
+      (super.noSuchMethod(Invocation.method(#verifyRequest, [params]),
+          returnValue: Future<bool>.value(false)) as _i4.Future<bool>);
 }
 
 /// A class which mocks [NetworkInfo].

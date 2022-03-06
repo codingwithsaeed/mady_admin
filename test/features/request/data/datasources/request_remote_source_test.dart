@@ -20,7 +20,7 @@ void main() {
     sut = RequestRemoteSourceImpl(client: client);
   });
 
-  group('Remote Data', () {
+  group('Remote Data GetRequests Test', () {
     RequestModel tRequestModel = RequestModel.fromJson(
       jsonDecode(
         fixture('request_model.json'),
@@ -65,6 +65,74 @@ void main() {
         final call = sut.getRequests;
         //assert
         expect(call(), throwsA(const TypeMatcher<ServerException>()));
+      },
+    );
+  });
+
+  group('Remote VerifyRequest', () {
+    const tParamsAccept = {
+      'action': 'accept_seller',
+      'srid': '7',
+    };
+
+    final url = Uri.parse('http://192.168.1.2/mady/webservice_admin.php');
+
+    test(
+      "Should perform a post request with proper data",
+      () async {
+        //arrange
+        when(client.post(any, body: anyNamed('body'))).thenAnswer(
+            (_) async => http.Response(fixture('success.json'), 200));
+        //act
+        await sut.verifyRequest(tParamsAccept);
+        //assert
+        verify(client.post(url, body: tParamsAccept));
+        verifyNoMoreInteractions(client);
+      },
+    );
+
+    test(
+      "Should Retrun [true] when call success 200 and operation is succeeded",
+      () async {
+        //arrange
+        when(client.post(any, body: anyNamed('body'))).thenAnswer(
+            (_) async => http.Response(fixture('success.json'), 200));
+        //act
+        final result = await sut.verifyRequest(tParamsAccept);
+        //assert
+        expect(result, true);
+      },
+    );
+
+    test(
+      "Should throw a [ServerException] when call success 200 and operation is unsucceeded",
+      () async {
+        //arrange
+        when(client.post(any, body: anyNamed('body'))).thenAnswer(
+            (_) async => http.Response(fixture('failed.json'), 200));
+        //act
+        final result = sut.verifyRequest;
+        //assert
+        expect(
+          result(tParamsAccept),
+          throwsA(const TypeMatcher<ServerException>()),
+        );
+      },
+    );
+
+    test(
+      "Should throw a [ServerException] when call isn't success 200",
+      () async {
+        //arrange
+        when(client.post(any, body: anyNamed('body'))).thenAnswer(
+            (_) async => http.Response(fixture('failed.json'), 404));
+        //act
+        final result = sut.verifyRequest;
+        //assert
+        expect(
+          result(tParamsAccept),
+          throwsA(const TypeMatcher<ServerException>()),
+        );
       },
     );
   });

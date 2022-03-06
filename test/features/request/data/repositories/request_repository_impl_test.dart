@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/core/errors/failures.dart';
 import 'package:mady_admin/core/network/network_info.dart';
+import 'package:mady_admin/core/usecases/usecase.dart';
 import 'package:mady_admin/features/login/data/repositories/login_repository_impl.dart';
 import 'package:mady_admin/features/request/data/datasources/request_remote_datasource.dart';
 import 'package:mady_admin/features/request/data/models/request_model.dart';
@@ -26,7 +27,7 @@ void main() {
         dataSource: remoteSource, networkInfo: networkInfo);
   });
 
-  group('Request Repository Impl', () {
+  group('GetRequests Test', () {
     List<Request> requests = [
       Request(
           srid: "2",
@@ -92,6 +93,65 @@ void main() {
             .thenThrow(ServerException(message: NOT_FOUND_EX));
         //act
         final result = await sut.getRequests();
+        //assert
+        expect(result, Left(ServerFailure(message: NOT_FOUND_EX)));
+      },
+    );
+  });
+
+  group('VerifyRequest test', () {
+    const tParams = Params({'action': 'accept_seller', 'srid': '7'});
+    test(
+      'Should return [ServerFailure] if device isn\'t connected to internet',
+      () async {
+        //arrange
+        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        //act
+        final result = await sut.verifyRequest(tParams);
+        //assert
+        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        verify(networkInfo.isConnected);
+        verifyNoMoreInteractions(networkInfo);
+      },
+    );
+
+    test(
+      'Should return [Right(true)] if operation is succeeded',
+      () async {
+        //arrange
+        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(remoteSource.verifyRequest(any)).thenAnswer((_) async => true);
+        //act
+        final result = await sut.verifyRequest(tParams);
+        //assert
+        expect(result, const Right(true));
+        verify(remoteSource.verifyRequest(tParams.param));
+        verifyNoMoreInteractions(remoteSource);
+      },
+    );
+
+    test(
+      'Should return [Left(ServerFailure)] when operation is unsucceeded',
+      () async {
+        //arrange
+        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(remoteSource.verifyRequest(any)).thenAnswer((_) async => false);
+        //act
+        final result = await sut.verifyRequest(tParams);
+        //assert
+        expect(result, Left(ServerFailure(message: NOT_FOUND_EX)));
+      },
+    );
+
+    test(
+      'Should return [Left(ServerFailure)] on DataSource Exceptions',
+      () async {
+        //arrange
+        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(remoteSource.verifyRequest(any))
+            .thenThrow(ServerException(message: NOT_FOUND_EX));
+        //act
+        final result = await sut.verifyRequest(tParams);
         //assert
         expect(result, Left(ServerFailure(message: NOT_FOUND_EX)));
       },

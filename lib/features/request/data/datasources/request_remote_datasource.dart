@@ -13,6 +13,10 @@ abstract class RequestRemoteSource {
   /// Calls the http://192.168.1.2/mady/webservice_admin.php.
   /// Throws a [ServerException] for all error codes.
   Future<RequestModel> getRequests();
+
+  /// Calls the http://192.168.1.2/mady/webservice_admin.php.
+  /// Throws a [ServerException] for all error codes.
+  Future<bool> verifyRequest(Map<String, dynamic> params);
 }
 
 final url = Uri.parse('http://192.168.1.2/mady/webservice_admin.php');
@@ -37,5 +41,15 @@ class RequestRemoteSourceImpl implements RequestRemoteSource {
     } else {
       throw ServerException(message: 'error code: ${result.statusCode}');
     }
+  }
+
+  @override
+  Future<bool> verifyRequest(Map<String, dynamic> params) async {
+    final result = await client.post(url, body: params);
+    if (result.statusCode == 200) {
+      if (jsonDecode(result.body)['success'] == 1) return true;
+      throw ServerException(message: NOT_FOUND_EX);
+    }
+    throw ServerException(message: '${result.statusCode}');
   }
 }
