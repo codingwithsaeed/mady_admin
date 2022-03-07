@@ -9,7 +9,7 @@ import 'package:mady_admin/features/seller/domain/usecases/seller_usecase.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'seller_usecase.mocks.dart';
+import 'seller_usecase_test.mocks.dart';
 
 @GenerateMocks([SellerRepository])
 void main() {

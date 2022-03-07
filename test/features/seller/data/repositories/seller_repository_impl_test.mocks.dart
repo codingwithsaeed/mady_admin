@@ -2,12 +2,13 @@
 // in mady_admin/test/features/seller/data/repositories/seller_repository_impl_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
 import 'package:mady_admin/core/network/network_info.dart' as _i5;
 import 'package:mady_admin/features/seller/data/datasources/seller_remote_source.dart'
+    as _i3;
+import 'package:mady_admin/features/seller/data/models/seller_model.dart'
     as _i2;
-import 'package:mady_admin/features/seller/domain/entities/seller.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -20,20 +21,22 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 
+class _FakeSellerModel_0 extends _i1.Fake implements _i2.SellerModel {}
+
 /// A class which mocks [SellerRemoteSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSellerRemoteSource extends _i1.Mock
-    implements _i2.SellerRemoteSource {
+    implements _i3.SellerRemoteSource {
   MockSellerRemoteSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<List<_i4.Seller>> getSellers(Map<String, dynamic>? params) =>
+  _i4.Future<_i2.SellerModel> getSellers(Map<String, dynamic>? params) =>
       (super.noSuchMethod(Invocation.method(#getSellers, [params]),
-              returnValue: Future<List<_i4.Seller>>.value(<_i4.Seller>[]))
-          as _i3.Future<List<_i4.Seller>>);
+              returnValue: Future<_i2.SellerModel>.value(_FakeSellerModel_0()))
+          as _i4.Future<_i2.SellerModel>);
 }
 
 /// A class which mocks [NetworkInfo].
@@ -45,7 +48,7 @@ class MockNetworkInfo extends _i1.Mock implements _i5.NetworkInfo {
   }
 
   @override
-  _i3.Future<bool> get isConnected =>
+  _i4.Future<bool> get isConnected =>
       (super.noSuchMethod(Invocation.getter(#isConnected),
-          returnValue: Future<bool>.value(false)) as _i3.Future<bool>);
+          returnValue: Future<bool>.value(false)) as _i4.Future<bool>);
 }

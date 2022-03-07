@@ -6,6 +6,7 @@ import 'package:mady_admin/core/network/network_info.dart';
 import 'package:mady_admin/core/usecases/usecase.dart';
 import 'package:mady_admin/features/login/data/repositories/login_repository_impl.dart';
 import 'package:mady_admin/features/seller/data/datasources/seller_remote_source.dart';
+import 'package:mady_admin/features/seller/data/models/seller_model.dart';
 import 'package:mady_admin/features/seller/data/repositories/seller_repository_impl.dart';
 import 'package:mady_admin/features/seller/domain/entities/seller.dart';
 import 'package:mockito/annotations.dart';
@@ -61,12 +62,14 @@ void main() {
           specialCount: "0")
     ];
     const tSellersList2 = <Seller>[];
+    final tSellerModel1 = SellerModel(success: 1, data: tSellersList1);
+    const tSellerModel2 = SellerModel(success: 1, data: []);
     test(
       "Should return a [ServerFailure] if device is not connected to internet",
       () async {
         //arrange
         when(networkInfo.isConnected).thenAnswer((_) async => false);
-        when(dataSource.getSellers(any)).thenAnswer((_) async => tSellersList1);
+        when(dataSource.getSellers(any)).thenAnswer((_) async => tSellerModel1);
         //act
         final result = await sut.getSellers(tParams);
         //assert
@@ -81,7 +84,7 @@ void main() {
       () async {
         //arrange
         when(networkInfo.isConnected).thenAnswer((_) async => true);
-        when(dataSource.getSellers(any)).thenAnswer((_) async => tSellersList1);
+        when(dataSource.getSellers(any)).thenAnswer((_) async => tSellerModel1);
         //act
         final result = await sut.getSellers(tParams);
         //assert
@@ -96,7 +99,7 @@ void main() {
       () async {
         //arrange
         when(networkInfo.isConnected).thenAnswer((_) async => true);
-        when(dataSource.getSellers(any)).thenAnswer((_) async => tSellersList2);
+        when(dataSource.getSellers(any)).thenAnswer((_) async => tSellerModel2);
         //act
         final result = await sut.getSellers(tParams);
         //assert

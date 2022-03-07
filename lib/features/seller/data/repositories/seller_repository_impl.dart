@@ -23,7 +23,7 @@ class SellerRepositoryImpl implements SellerRepository {
 
     try {
       final result = await dataSource.getSellers(params.param);
-      return Right(result);
+      return Right(result.data!);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
     }
