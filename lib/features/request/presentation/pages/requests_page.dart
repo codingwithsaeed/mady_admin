@@ -73,8 +73,11 @@ class _RequestsPageState extends State<RequestsPage>
             backgroundImage: NetworkImage(requests[index].logo),
           ),
           title: Text(requests[index].storeName),
-          onTap: () => Navigator.pushNamed(context, SingleRequestPage.id,
-              arguments: requests[index]),
+          onTap: () async {
+            await Navigator.pushNamed(context, SingleRequestPage.id,
+                arguments: requests[index]);
+            BlocProvider.of<RequestCubit>(context).getRequests();
+          },
         ),
       ),
       itemCount: requests.length,

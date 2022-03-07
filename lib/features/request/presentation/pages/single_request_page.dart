@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mady_admin/core/utils/show_loading.dart';
+import 'package:mady_admin/core/utils/show_snackbar.dart';
 import 'package:mady_admin/features/request/domain/entities/request.dart';
 import 'package:mady_admin/features/request/presentation/cubit/request_cubit.dart';
+import 'package:mady_admin/injection.dart';
 
 import 'widgets.dart';
 
-class SingleRequestPage extends StatelessWidget {
+class SingleRequestPage extends StatefulWidget {
   static const id = 'SingleRequestPage';
   const SingleRequestPage({Key? key}) : super(key: key);
+
+  @override
+  State<SingleRequestPage> createState() => _SingleRequestPageState();
+}
+
+class _SingleRequestPageState extends State<SingleRequestPage> {
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -21,23 +31,38 @@ class SingleRequestPage extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => Navigator.pop(context),
             icon: const Icon(Icons.arrow_forward_sharp),
           )
         ],
       ),
-      body: BlocConsumer<RequestCubit, RequestState>(
-        listener: (context, state) {
-          print(state.runtimeType);
-        },
-        builder: (context, state) {
-          return buildBody(request);
-        },
+      body: BlocProvider(
+        create: (context) => getIt<RequestCubit>(),
+        child: BlocConsumer<RequestCubit, RequestState>(
+          listener: (context, state) {
+            if (state is RequestLoading) {
+              if (!isLoading) {
+                showLoading(context);
+                setState(() => isLoading = true);
+              }
+            } else {
+              if (isLoading) {
+                Navigator.of(context).pop();
+                setState(() => isLoading = false);
+              }
+              if (state is VerifyRequestLoaded) Navigator.pop(context);
+              if (state is RequestError) showSnackbar(context, state.message);
+            }
+          },
+          builder: (context, state) {
+            return buildBody(context, request);
+          },
+        ),
       ),
     );
   }
 
-  Widget buildBody(Request request) {
+  Widget buildBody(BuildContext context, Request request) {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -49,6 +74,7 @@ class SingleRequestPage extends StatelessWidget {
             height: 10.0,
           ),
           DetailsCard(
+            //TODO: StoreName with number must be fixed.
             title: 'نام فروشگاه: ${request.storeName}',
           ),
           DetailsCard(
@@ -83,12 +109,14 @@ class SingleRequestPage extends StatelessWidget {
               AcceptanceButton(
                 color: Colors.red,
                 title: 'رد درخواست',
-                onPressed: () {},
+                onPressed: () => BlocProvider.of<RequestCubit>(context)
+                    .verifyRequest(request.srid, 'deny_seller'),
               ),
               AcceptanceButton(
                 color: Colors.green,
                 title: 'قبول درخواست',
-                onPressed: () {},
+                onPressed: () => BlocProvider.of<RequestCubit>(context)
+                    .verifyRequest(request.srid, 'accept_seller'),
               ),
             ],
           ),

@@ -26,3 +26,7 @@ class RequestError extends RequestState {
 
   const RequestError(this.message);
 }
+
+class VerifyRequestLoaded extends RequestState {
+  const VerifyRequestLoaded();
+}

@@ -11,20 +11,19 @@ import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i4;
 
 import 'core/network/network_info.dart' as _i6;
-import 'core/utils/injectable_modules.dart' as _i17;
+import 'core/utils/injectable_modules.dart' as _i16;
 import 'features/login/data/datasources/login_remote_datasource.dart' as _i5;
-import 'features/login/data/repositories/login_repository_impl.dart' as _i13;
-import 'features/login/domain/repositories/login_repository.dart' as _i12;
-import 'features/login/domain/usecases/login_usecase.dart' as _i14;
-import 'features/login/presentation/cubit/login_cubit.dart' as _i16;
+import 'features/login/data/repositories/login_repository_impl.dart' as _i12;
+import 'features/login/domain/repositories/login_repository.dart' as _i11;
+import 'features/login/domain/usecases/login_usecase.dart' as _i13;
+import 'features/login/presentation/cubit/login_cubit.dart' as _i15;
 import 'features/request/data/datasources/request_remote_datasource.dart'
     as _i7;
 import 'features/request/data/repositories/request_repository_impl.dart' as _i9;
 import 'features/request/domain/repositories/request_repository.dart' as _i8;
 import 'features/request/domain/usecases/request_usecase.dart' as _i10;
-import 'features/request/domain/usecases/verify_request_usecase.dart' as _i11;
 import 'features/request/presentation/cubit/request_cubit.dart'
-    as _i15; // ignore_for_file: unnecessary_lambdas
+    as _i14; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -45,17 +44,15 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       networkInfo: get<_i6.NetworkInfo>()));
   gh.factory<_i10.RequestUsecase>(
       () => _i10.RequestUsecase(get<_i8.RequestRepository>()));
-  gh.factory<_i11.VerifyRequestUsecase>(
-      () => _i11.VerifyRequestUsecase(get<_i8.RequestRepository>()));
-  gh.factory<_i12.LoginRepository>(() => _i13.LoginRepositoryImpl(
+  gh.factory<_i11.LoginRepository>(() => _i12.LoginRepositoryImpl(
       dataSource: get<_i5.LoginRemoteDataSource>(),
       networkInfo: get<_i6.NetworkInfo>()));
-  gh.factory<_i14.LoginUsecase>(
-      () => _i14.LoginUsecase(get<_i12.LoginRepository>()));
-  gh.factory<_i15.RequestCubit>(
-      () => _i15.RequestCubit(get<_i10.RequestUsecase>()));
-  gh.factory<_i16.LoginCubit>(() => _i16.LoginCubit(get<_i14.LoginUsecase>()));
+  gh.factory<_i13.LoginUsecase>(
+      () => _i13.LoginUsecase(get<_i11.LoginRepository>()));
+  gh.factory<_i14.RequestCubit>(
+      () => _i14.RequestCubit(get<_i10.RequestUsecase>()));
+  gh.factory<_i15.LoginCubit>(() => _i15.LoginCubit(get<_i13.LoginUsecase>()));
   return get;
 }
 
-class _$InjectableModules extends _i17.InjectableModules {}
+class _$InjectableModules extends _i16.InjectableModules {}

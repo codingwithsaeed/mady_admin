@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mady_admin/core/errors/failures.dart';
 import 'package:mady_admin/core/usecases/usecase.dart';
+import 'package:mady_admin/features/login/data/repositories/login_repository_impl.dart';
 import 'package:mady_admin/features/request/domain/entities/request.dart';
 import 'package:mady_admin/features/request/domain/repositories/request_repository.dart';
 import 'package:mady_admin/features/request/domain/usecases/request_usecase.dart';
@@ -51,7 +52,7 @@ void main() {
         //arrange
         when(repository.getRequests()).thenAnswer((_) async => Right(requests));
         //act
-        final result = await sut(NoParams());
+        final result = await sut.getRequests();
         //assert
         expect(result, Right(requests));
         verify(repository.getRequests());
@@ -66,11 +67,47 @@ void main() {
         when(repository.getRequests())
             .thenAnswer((_) async => Left(ServerFailure(message: 'Server')));
         //act
-        final result = await sut(NoParams());
+        final result = await sut.getRequests();
         //assert
         expect(result, Left(ServerFailure(message: 'Server')));
         verify(repository.getRequests());
         verifyNoMoreInteractions(repository);
+      },
+    );
+  });
+
+  group('Testing Verfiy Request', () {
+    test(
+      "Should return [Right(true)] if call to repository is succeeded",
+      () async {
+        //arrange
+        when(repository.verifyRequest(any))
+            .thenAnswer((_) async => const Right(true));
+        //act
+        final result = await sut.verifyRequest(
+          const Params({'action': 'accept_seller', 'srid': '7'}),
+        );
+        //assert
+        expect(result, const Right(true));
+        verify(repository.verifyRequest(
+          const Params({'action': 'accept_seller', 'srid': '7'}),
+        ));
+        verifyNoMoreInteractions(repository);
+      },
+    );
+
+    test(
+      "Should return [Left(ServerFailure)] if call to repository is unsucceeded",
+      () async {
+        //arrange
+        when(repository.verifyRequest(any)).thenAnswer(
+            (_) async => Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        //act
+        final result = await sut.verifyRequest(
+          const Params({'action': 'accept_seller', 'srid': '7'}),
+        );
+        //assert
+        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
       },
     );
   });
