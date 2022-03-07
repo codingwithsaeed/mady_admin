@@ -11,18 +11,18 @@ part 'login_state.dart';
 @injectable
 class LoginCubit extends Cubit<LoginState> {
   final LoginUsecase loginUsecase;
-  LoginCubit(this.loginUsecase) : super(const InitialState());
+  LoginCubit(this.loginUsecase) : super(const LoginInitial());
 
   Future<void> doAuth(String? username, String? password) async {
-    emit(const LodingState());
+    emit(const LoginLoading());
 
     if (username == null || username == '') {
-      emit(const ErrorState('نام کاربری را وارد کنید'));
+      emit(const LoginError('نام کاربری را وارد کنید'));
       return;
     }
 
     if (password == null || password == '') {
-      emit(const ErrorState('گذرواژه را وارد کنید'));
+      emit(const LoginError('گذرواژه را وارد کنید'));
       return;
     }
 
@@ -31,10 +31,10 @@ class LoginCubit extends Cubit<LoginState> {
     );
     res.fold(
       (failure) {
-        if (failure is ServerFailure) emit(ErrorState(failure.message));
+        if (failure is ServerFailure) emit(LoginError(failure.message));
       },
       (admin) {
-        emit(LoadedState(admin));
+        emit(LoginLoaded(admin));
       },
     );
   }

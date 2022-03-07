@@ -1,0 +1,37 @@
+{
+    "success": 1,
+    "data": [
+        {
+            "sid": "2",
+            "storeName": "2 عطر آویشن",
+            "phone": "+989136581815",
+            "category": "ATARI",
+            "address": "اصفهان - میدان سهروردی",
+            "website": "www.avishan.co",
+            "logo": "http://192.168.1.2/mady/uploads/logo/avish.jpg",
+            "lat": "32",
+            "lng": "51",
+            "pocket": "1",
+            "offerCount": "3",
+            "expire": "1400-12-23",
+            "hasSpecial": "0",
+            "specialCount": "0"
+        },
+        {
+            "sid": "1",
+            "storeName": "عطر آویشن",
+            "phone": "+989136581814",
+            "category": "ATARI",
+            "address": "اصفهان - میدان انقلاب",
+            "website": "www.avishan.co",
+            "logo": "http://192.168.1.2/mady/uploads/logo/avish.jpg",
+            "lat": "32.646472",
+            "lng": "51.667644",
+            "pocket": "1",
+            "offerCount": "3",
+            "expire": "1400-12-22",
+            "hasSpecial": "0",
+            "specialCount": "0"
+        }
+    ]
+}

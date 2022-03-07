@@ -42,12 +42,12 @@ class LoginPage extends StatelessWidget {
 
   void cubitListener(context, state) {
     FocusManager.instance.primaryFocus!.unfocus();
-    if (state is LodingState)
+    if (state is LoginLoading)
       showLoading(context);
     else {
       Navigator.of(context).pop();
-      if (state is LoadedState) Navigator.pushNamed(context, MainPage.id);
-      if (state is ErrorState) showSnackbar(context, state.message);
+      if (state is LoginLoaded) Navigator.pushNamed(context, MainPage.id);
+      if (state is LoginError) showSnackbar(context, state.message);
     }
   }
 
