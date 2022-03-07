@@ -4,6 +4,8 @@ import 'package:mady_admin/features/request/presentation/pages/single_request_pa
 import 'package:mady_admin/injection.dart';
 import 'package:mady_admin/main_page.dart';
 
+import 'features/seller/presentation/pages/single_seller_page.dart';
+
 void main() {
   configureInjection();
   runApp(const MyApp());
@@ -24,7 +26,8 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginPage.id: (context) => LoginPage(),
         MainPage.id: (context) => const MainPage(),
-        SingleRequestPage.id: (context) => const SingleRequestPage()
+        SingleRequestPage.id: (context) => const SingleRequestPage(),
+        SingleSellerPage.id: (context) => const SingleSellerPage()
       },
     );
   }

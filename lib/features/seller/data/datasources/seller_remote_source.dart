@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:injectable/injectable.dart';
 import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/features/seller/data/models/seller_model.dart';
 import 'package:http/http.dart' as http;
@@ -14,6 +15,7 @@ abstract class SellerRemoteSource {
 
 final url = Uri.parse('http://192.168.1.2/mady/webservice_admin.php');
 
+@Injectable(as: SellerRemoteSource)
 class SellerRemoteSourceImpl implements SellerRemoteSource {
   final http.Client client;
 

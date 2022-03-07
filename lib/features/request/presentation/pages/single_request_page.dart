@@ -7,7 +7,7 @@ import 'package:mady_admin/features/request/domain/entities/request.dart';
 import 'package:mady_admin/features/request/presentation/cubit/request_cubit.dart';
 import 'package:mady_admin/injection.dart';
 
-import 'widgets.dart';
+import '../widgets/widgets.dart';
 
 class SingleRequestPage extends StatefulWidget {
   static const id = 'SingleRequestPage';
