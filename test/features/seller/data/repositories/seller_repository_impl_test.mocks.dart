@@ -4,11 +4,13 @@
 
 import 'dart:async' as _i4;
 
-import 'package:mady_admin/core/network/network_info.dart' as _i5;
+import 'package:mady_admin/core/network/network_info.dart' as _i6;
 import 'package:mady_admin/features/seller/data/datasources/seller_remote_source.dart'
     as _i3;
 import 'package:mady_admin/features/seller/data/models/seller_model.dart'
     as _i2;
+import 'package:mady_admin/features/seller/domain/entities/add_seller.dart'
+    as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -37,12 +39,16 @@ class MockSellerRemoteSource extends _i1.Mock
       (super.noSuchMethod(Invocation.method(#getSellers, [params]),
               returnValue: Future<_i2.SellerModel>.value(_FakeSellerModel_0()))
           as _i4.Future<_i2.SellerModel>);
+  @override
+  _i4.Future<bool> insertSeller(_i5.AddSeller? params) =>
+      (super.noSuchMethod(Invocation.method(#insertSeller, [params]),
+          returnValue: Future<bool>.value(false)) as _i4.Future<bool>);
 }
 
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i5.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i6.NetworkInfo {
   MockNetworkInfo() {
     _i1.throwOnMissingStub(this);
   }

@@ -7,6 +7,8 @@ import 'dart:async' as _i4;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mady_admin/core/errors/failures.dart' as _i5;
 import 'package:mady_admin/core/usecases/usecase.dart' as _i7;
+import 'package:mady_admin/features/seller/domain/entities/add_seller.dart'
+    as _i8;
 import 'package:mady_admin/features/seller/domain/entities/seller.dart' as _i6;
 import 'package:mady_admin/features/seller/domain/repositories/seller_repository.dart'
     as _i3;
@@ -39,4 +41,11 @@ class MockSellerRepository extends _i1.Mock implements _i3.SellerRepository {
           returnValue: Future<_i2.Either<_i5.Failure, List<_i6.Seller>>>.value(
               _FakeEither_0<_i5.Failure, List<_i6.Seller>>())) as _i4
           .Future<_i2.Either<_i5.Failure, List<_i6.Seller>>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, bool>> insertSeller(
+          _i8.AddSeller? params) =>
+      (super.noSuchMethod(Invocation.method(#insertSeller, [params]),
+              returnValue: Future<_i2.Either<_i5.Failure, bool>>.value(
+                  _FakeEither_0<_i5.Failure, bool>()))
+          as _i4.Future<_i2.Either<_i5.Failure, bool>>);
 }

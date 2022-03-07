@@ -17,7 +17,7 @@ class SellerCubit extends Cubit<SellerState> {
   Future<void> getSellers() async {
     emit(const SellerLoading());
 
-    final result = await _usecase(const Params({'action': 'get_sellers_list'}));
+    final result = await _usecase.getSellers(const Params({'action': 'get_sellers_list'}));
     result.fold((failure) {
       if (failure is ServerFailure) emit(SellerError(failure.message));
     }, (list) => emit(SellerLoaded(list)));

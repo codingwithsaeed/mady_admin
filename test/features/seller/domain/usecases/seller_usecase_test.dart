@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mady_admin/core/errors/failures.dart';
 import 'package:mady_admin/core/usecases/usecase.dart';
 import 'package:mady_admin/features/login/data/repositories/login_repository_impl.dart';
+import 'package:mady_admin/features/seller/domain/entities/add_seller.dart';
 import 'package:mady_admin/features/seller/domain/entities/seller.dart';
 import 'package:mady_admin/features/seller/domain/repositories/seller_repository.dart';
 import 'package:mady_admin/features/seller/domain/usecases/seller_usecase.dart';
@@ -63,7 +64,7 @@ void main() {
         when(repository.getSellers(any))
             .thenAnswer((_) async => Right(tSellersList));
         //act
-        final result = await sut(tParams);
+        final result = await sut.getSellers(tParams);
         //assert
         expect(result, Right(tSellersList));
       },
@@ -76,7 +77,45 @@ void main() {
         when(repository.getSellers(any)).thenAnswer(
             (_) async => Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
         //act
-        final result = await sut(tParams);
+        final result = await sut.getSellers(tParams);
+        //assert
+        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+      },
+    );
+  });
+
+  group('Testing insert seller', () {
+    const tParams = AddSeller(
+        storeName: 'فروشگاه ۱',
+        phone: '09139902080',
+        category: 'ARAYESHI',
+        address: 'اصفهان، میدان نقش جهان',
+        logo: 'logo',
+        lat: '32',
+        lng: '51',
+        pocket: '1');
+
+    test(
+      "Should return a [true] if call to repo was succeed",
+      () async {
+        //arrange
+        when(repository.insertSeller(any))
+            .thenAnswer((_) async => const Right(true));
+        //act
+        final result = await sut.insertSeller(tParams);
+        //assert
+        expect(result, const Right(true));
+      },
+    );
+
+    test(
+      "Should return a ServerFailure if call to repo was unsucceed",
+      () async {
+        //arrange
+        when(repository.insertSeller(any)).thenAnswer(
+            (_) async => Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        //act
+        final result = await sut.insertSeller(tParams);
         //assert
         expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
       },

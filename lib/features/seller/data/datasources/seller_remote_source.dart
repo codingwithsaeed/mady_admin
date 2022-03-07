@@ -6,11 +6,16 @@ import 'package:injectable/injectable.dart';
 import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/features/seller/data/models/seller_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:mady_admin/features/seller/domain/entities/add_seller.dart';
 
 abstract class SellerRemoteSource {
   ///Performs a POST request to [http://192.168.1.2/mady/webservice_admin.php]
   ///Throws a [ServerException] on all error codes
   Future<SellerModel> getSellers(Map<String, dynamic> params);
+
+  ///Performs a POST request to [http://192.168.1.2/mady/webservice_admin.php]
+  ///Throws a [ServerException] on all error codes
+  Future<bool> insertSeller(AddSeller params);
 }
 
 final url = Uri.parse('http://192.168.1.2/mady/webservice_admin.php');
@@ -27,5 +32,19 @@ class SellerRemoteSourceImpl implements SellerRemoteSource {
     if (res.statusCode == 200)
       return SellerModel.fromJson(jsonDecode(res.body));
     throw ServerException(message: 'error code: ${res.statusCode}');
+  }
+
+  @override
+  Future<bool> insertSeller(AddSeller params) async {
+    final result = await client.post(url, body: params);
+    if (result.statusCode == 200) {
+      if (jsonDecode(result.body)['success'] == 1)
+        return true;
+      else if (jsonDecode(result.body)['success'] == -1)
+        throw ServerException(message: 'این شماره مربوط به فروشنده دیگری است');
+      else
+        throw ServerException(message: 'مشکلی در ثبت فروشنده پیش آمد.');
+    }
+    throw ServerException(message: 'error code: ${result.statusCode}');
   }
 }

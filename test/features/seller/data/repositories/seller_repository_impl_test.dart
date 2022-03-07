@@ -8,6 +8,7 @@ import 'package:mady_admin/features/login/data/repositories/login_repository_imp
 import 'package:mady_admin/features/seller/data/datasources/seller_remote_source.dart';
 import 'package:mady_admin/features/seller/data/models/seller_model.dart';
 import 'package:mady_admin/features/seller/data/repositories/seller_repository_impl.dart';
+import 'package:mady_admin/features/seller/domain/entities/add_seller.dart';
 import 'package:mady_admin/features/seller/domain/entities/seller.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -118,6 +119,62 @@ void main() {
             .thenThrow(ServerException(message: NOT_FOUND_EX));
         //act
         final result = await sut.getSellers(tParams);
+        //assert
+        expect(result, Left(ServerFailure(message: NOT_FOUND_EX)));
+      },
+    );
+  });
+
+  group('Testing insertSeller', () {
+    const tParams = AddSeller(
+        storeName: 'فروشگاه ۱',
+        phone: '09139902080',
+        category: 'ARAYESHI',
+        address: 'اصفهان، میدان نقش جهان',
+        logo: 'logo',
+        lat: '32',
+        lng: '51',
+        pocket: '1');
+
+    test(
+      "Should return a [ServerFailure] if device is not connected to internet",
+      () async {
+        //arrange
+        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        when(dataSource.insertSeller(any)).thenAnswer((_) async => true);
+        //act
+        final result = await sut.insertSeller(tParams);
+        //assert
+        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        verify(networkInfo.isConnected);
+        verifyNoMoreInteractions(networkInfo);
+      },
+    );
+
+    test(
+      "Should return true if device is online and call to remote was succeed",
+      () async {
+        //arrange
+        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(dataSource.insertSeller(any)).thenAnswer((_) async => true);
+        //act
+        final result = await sut.insertSeller(tParams);
+        //assert
+        expect(result, const Right(true));
+        verify(dataSource.insertSeller(tParams));
+        verifyNoMoreInteractions(dataSource);
+      },
+    );
+
+    test(
+      "Should return a [ServerFailure] on ServerExceptions",
+      () async {
+        //arrange
+        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(dataSource.insertSeller(any))
+            .thenThrow(ServerException(message: NOT_FOUND_EX));
+        //act
+        final result = await sut.insertSeller(tParams);
         //assert
         expect(result, Left(ServerFailure(message: NOT_FOUND_EX)));
       },

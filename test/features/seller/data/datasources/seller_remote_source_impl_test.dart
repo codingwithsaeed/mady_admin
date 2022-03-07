@@ -3,6 +3,7 @@ import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/core/usecases/usecase.dart';
 import 'package:mady_admin/features/seller/data/datasources/seller_remote_source.dart';
 import 'package:mady_admin/features/seller/data/models/seller_model.dart';
+import 'package:mady_admin/features/seller/domain/entities/add_seller.dart';
 import 'package:mady_admin/features/seller/domain/entities/seller.dart';
 import 'package:mockito/annotations.dart';
 import 'package:http/http.dart' as http;
@@ -26,7 +27,7 @@ void main() {
     const tParams = Params({'action': 'get_sellers_list'});
 
     final tSellersList1 = [
-      Seller(
+      const Seller(
           sid: "6",
           storeName: "9 عطر آویشن",
           phone: "+989136581822",
@@ -41,7 +42,7 @@ void main() {
           expire: "1400-12-23",
           hasSpecial: "0",
           specialCount: "0"),
-      Seller(
+      const Seller(
           sid: "5",
           storeName: "8 عطر آویشن",
           phone: "+989136581821",
@@ -58,7 +59,6 @@ void main() {
           specialCount: "0")
     ];
 
-    final tSellersList2 = <Seller>[];
 
     final tSellerModel1 = SellerModel(success: 1, data: tSellersList1);
     const tSellerModel2 = SellerModel(success: 1, data: []);
@@ -107,6 +107,56 @@ void main() {
         final result = sut.getSellers;
         //assert
         expect(result(tParams.param),
+            throwsA(const TypeMatcher<ServerException>()));
+      },
+    );
+  });
+
+  group('Testing insertSeller', () {
+    final url = Uri.parse('http://192.168.1.2/mady/webservice_admin.php');
+    const tParams = AddSeller(
+        storeName: 'فروشگاه ۱',
+        phone: '09139902080',
+        category: 'ARAYESHI',
+        address: 'اصفهان، میدان نقش جهان',
+        logo: 'logo',
+        lat: '32',
+        lng: '51',
+        pocket: '1');
+
+    test(
+      "Should perform a post reuqest with proper data",
+      () async {
+        when(client.post(any, body: anyNamed('body'))).thenAnswer(
+            (_) async => http.Response(fixture('success.json'), 200));
+        //act
+        await sut.insertSeller(tParams);
+        //assert
+        verify(client.post(url, body: tParams));
+      },
+    );
+
+    test(
+      "Should return true when call to api is success 200",
+      () async {
+        when(client.post(any, body: anyNamed('body'))).thenAnswer(
+            (_) async => http.Response(fixture('success.json'), 200));
+        //act
+        final result = await sut.insertSeller(tParams);
+        //assert
+        expect(result, true);
+      },
+    );
+
+    test(
+      "Should throw a ServerException when api call isn't success 200",
+      () async {
+        when(client.post(any, body: anyNamed('body'))).thenAnswer(
+            (_) async => http.Response(fixture('failed.json'), 404));
+        //act
+        final result = sut.insertSeller;
+        //assert
+        expect(result(tParams),
             throwsA(const TypeMatcher<ServerException>()));
       },
     );

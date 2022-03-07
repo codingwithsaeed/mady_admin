@@ -5,6 +5,7 @@ import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/core/network/network_info.dart';
 import 'package:mady_admin/features/login/data/repositories/login_repository_impl.dart';
 import 'package:mady_admin/features/seller/data/datasources/seller_remote_source.dart';
+import 'package:mady_admin/features/seller/domain/entities/add_seller.dart';
 import 'package:mady_admin/features/seller/domain/entities/seller.dart';
 import 'package:mady_admin/core/usecases/usecase.dart';
 import 'package:mady_admin/core/errors/failures.dart';
@@ -26,6 +27,19 @@ class SellerRepositoryImpl implements SellerRepository {
     try {
       final result = await dataSource.getSellers(params.param);
       return Right(result.data!);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> insertSeller(AddSeller params) async {
+    if (!await networkInfo.isConnected)
+      return Left(ServerFailure(message: NO_INTERNET_CONNECTION));
+
+    try {
+      final result = await dataSource.insertSeller(params);
+      return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
     }
