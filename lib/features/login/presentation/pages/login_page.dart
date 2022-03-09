@@ -1,14 +1,12 @@
 // ignore_for_file: must_be_immutable, curly_braces_in_flow_control_structures
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mady_admin/core/utils/show_loading.dart';
 import 'package:mady_admin/core/utils/show_snackbar.dart';
+import 'package:mady_admin/core/x/x_widgets.dart';
 import 'package:mady_admin/features/login/presentation/cubit/login_cubit.dart';
 import 'package:mady_admin/injection.dart';
 import 'package:mady_admin/main_page.dart';
-import 'widgets/fa_text_field.dart';
-import 'widgets/naterial_button.dart';
 
 class LoginPage extends StatelessWidget {
   static const String id = 'LoginPage';
@@ -47,7 +45,7 @@ class LoginPage extends StatelessWidget {
     else {
       Navigator.of(context).pop();
       if (state is LoginLoaded) Navigator.pushNamed(context, MainPage.id);
-      if (state is LoginError) showSnackbar(context, state.message);
+      if (state is LoginError) showSnackbar(context, message: state.message);
     }
   }
 
@@ -64,14 +62,14 @@ class LoginPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              FaTextField(
+              XHintTextField(
                 icon: Icons.person_pin,
                 hint: 'نام کاربری',
                 onChanged: (value) {
                   username = value;
                 },
               ),
-              FaTextField(
+              XHintTextField(
                 icon: Icons.password_outlined,
                 hint: 'گذر واژه',
                 obscureText: true,
@@ -79,7 +77,7 @@ class LoginPage extends StatelessWidget {
                   password = value;
                 },
               ),
-              NaterialButton(
+              XButton(
                 title: 'ورود',
                 onPressed: (() {
                   LoginCubit cubit = BlocProvider.of(context);

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class NaterialButton extends StatelessWidget {
+class XButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String title;
   final Color color;
-  const NaterialButton({
+  const XButton({
     required this.onPressed,
     required this.title,
     this.color = Colors.blue,
@@ -25,7 +25,7 @@ class NaterialButton extends StatelessWidget {
           title,
           style: const TextStyle(fontSize: 20.0),
         ),
-        color: Colors.red,
+        color: color,
         textColor: Colors.white,
       ),
     );

@@ -15,7 +15,11 @@ abstract class SellerRemoteSource {
 
   ///Performs a POST request to [http://192.168.1.2/mady/webservice_admin.php]
   ///Throws a [ServerException] on all error codes
-  Future<bool> insertSeller(AddSeller params);
+  Future<bool> insertSeller(Map<String, dynamic> params);
+
+  ///Performs a POST request to [http://192.168.1.2/mady/webservice_admin.php]
+  ///Throws a [ServerException] on all error codes
+  Future<String> uploadLogo(Map<String, dynamic> params);
 }
 
 final url = Uri.parse('http://192.168.1.2/mady/webservice_admin.php');
@@ -35,8 +39,9 @@ class SellerRemoteSourceImpl implements SellerRemoteSource {
   }
 
   @override
-  Future<bool> insertSeller(AddSeller params) async {
-    final result = await client.post(url, body: params);
+  Future<bool> insertSeller(Map<String, dynamic> params) async {
+    final result = await client.post(url,
+        body: params, encoding: Encoding.getByName('utf8'));
     if (result.statusCode == 200) {
       if (jsonDecode(result.body)['success'] == 1)
         return true;
@@ -44,6 +49,18 @@ class SellerRemoteSourceImpl implements SellerRemoteSource {
         throw ServerException(message: 'این شماره مربوط به فروشنده دیگری است');
       else
         throw ServerException(message: 'مشکلی در ثبت فروشنده پیش آمد.');
+    }
+    throw ServerException(message: 'error code: ${result.statusCode}');
+  }
+
+  @override
+  Future<String> uploadLogo(Map<String, dynamic> params) async {
+    final result = await client.post(url, body: params);
+    if (result.statusCode == 200) {
+      if (jsonDecode(result.body)['success'] == 1)
+        return jsonDecode(result.body)['data'];
+      else
+        throw ServerException(message: 'مشکلی در آپلود لوگو پیش آمد.');
     }
     throw ServerException(message: 'error code: ${result.statusCode}');
   }

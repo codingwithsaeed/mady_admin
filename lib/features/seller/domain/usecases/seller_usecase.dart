@@ -17,4 +17,7 @@ class SellerUsecase {
 
   Future<Either<Failure, bool>> insertSeller(AddSeller params) async =>
       await repository.insertSeller(params);
+
+  Future<Either<Failure, String>> uploadLogo(Params params) async =>
+      await repository.uploadLogo(params);
 }

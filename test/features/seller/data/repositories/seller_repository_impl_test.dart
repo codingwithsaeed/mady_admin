@@ -126,7 +126,7 @@ void main() {
   });
 
   group('Testing insertSeller', () {
-    const tParams = AddSeller(
+    final tParams = AddSeller(
         storeName: 'فروشگاه ۱',
         phone: '09139902080',
         category: 'ARAYESHI',
@@ -161,7 +161,7 @@ void main() {
         final result = await sut.insertSeller(tParams);
         //assert
         expect(result, const Right(true));
-        verify(dataSource.insertSeller(tParams));
+        verify(dataSource.insertSeller(tParams.toJson()));
         verifyNoMoreInteractions(dataSource);
       },
     );
@@ -175,6 +175,58 @@ void main() {
             .thenThrow(ServerException(message: NOT_FOUND_EX));
         //act
         final result = await sut.insertSeller(tParams);
+        //assert
+        expect(result, Left(ServerFailure(message: NOT_FOUND_EX)));
+      },
+    );
+  });
+
+  group('Testing insertSeller', () {
+    const tParams = Params({
+      'action': 'upload_logo',
+      'name': 'imageName',
+      'image': 'gdfgdfgsdfgdfgsdgf'
+    });
+
+    test(
+      "Should return a [ServerFailure] if device is not connected to internet",
+      () async {
+        //arrange
+        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        when(dataSource.uploadLogo(any)).thenAnswer((_) async => 'link');
+        //act
+        final result = await sut.uploadLogo(tParams);
+        //assert
+        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        verify(networkInfo.isConnected);
+        verifyNoMoreInteractions(networkInfo);
+      },
+    );
+
+    test(
+      "Should return true if device is online and call to remote was succeed",
+      () async {
+        //arrange
+        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(dataSource.uploadLogo(any)).thenAnswer((_) async => 'link');
+        //act
+        final result = await sut.uploadLogo(tParams);
+        //assert
+        expect(result, const Right('link'));
+        verify(dataSource.uploadLogo(tParams.param));
+        verifyNoMoreInteractions(dataSource);
+      },
+    );
+
+    test(
+      "Should return a [ServerFailure] on ServerExceptions",
+      () async {
+        //arrange
+        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(dataSource.uploadLogo(any))
+            .thenThrow(ServerException(message: NOT_FOUND_EX));
+        //act
+        final result = await sut.uploadLogo(tParams);
         //assert
         expect(result, Left(ServerFailure(message: NOT_FOUND_EX)));
       },

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
-void showSnackbar(BuildContext context, String message) {
+void showSnackbar(
+  BuildContext context, {
+  required String message,
+  Color? color,
+}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(
@@ -8,7 +12,7 @@ void showSnackbar(BuildContext context, String message) {
         style: const TextStyle(fontFamily: 'Vazir'),
       ),
       duration: const Duration(seconds: 1),
-      backgroundColor: Colors.red,
+      backgroundColor: color ?? Colors.red,
     ),
   );
 }

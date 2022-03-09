@@ -59,7 +59,6 @@ void main() {
           specialCount: "0")
     ];
 
-
     final tSellerModel1 = SellerModel(success: 1, data: tSellersList1);
     const tSellerModel2 = SellerModel(success: 1, data: []);
     test(
@@ -114,7 +113,7 @@ void main() {
 
   group('Testing insertSeller', () {
     final url = Uri.parse('http://192.168.1.2/mady/webservice_admin.php');
-    const tParams = AddSeller(
+    final tParams = AddSeller(
         storeName: 'فروشگاه ۱',
         phone: '09139902080',
         category: 'ARAYESHI',
@@ -130,9 +129,9 @@ void main() {
         when(client.post(any, body: anyNamed('body'))).thenAnswer(
             (_) async => http.Response(fixture('success.json'), 200));
         //act
-        await sut.insertSeller(tParams);
+        await sut.insertSeller(tParams.toJson());
         //assert
-        verify(client.post(url, body: tParams));
+        verify(client.post(url, body: tParams.toJson()));
       },
     );
 
@@ -142,7 +141,7 @@ void main() {
         when(client.post(any, body: anyNamed('body'))).thenAnswer(
             (_) async => http.Response(fixture('success.json'), 200));
         //act
-        final result = await sut.insertSeller(tParams);
+        final result = await sut.insertSeller(tParams.toJson());
         //assert
         expect(result, true);
       },
@@ -156,7 +155,52 @@ void main() {
         //act
         final result = sut.insertSeller;
         //assert
-        expect(result(tParams),
+        expect(result(tParams.toJson()), throwsA(const TypeMatcher<ServerException>()));
+      },
+    );
+  });
+
+  group('Testing upload logo', () {
+    final url = Uri.parse('http://192.168.1.2/mady/webservice_admin.php');
+    const tParams = Params({
+      'action': 'upload_logo',
+      'name': 'imageName',
+      'image': 'gdfgdfgsdfgdfgsdgf'
+    });
+
+    test(
+      "Should perform a post reuqest with proper data",
+      () async {
+        when(client.post(any, body: anyNamed('body'))).thenAnswer(
+            (_) async => http.Response(fixture('success_logo.json'), 200));
+        //act
+        await sut.uploadLogo(tParams.param);
+        //assert
+        verify(client.post(url, body: tParams.param));
+      },
+    );
+
+    test(
+      "Should return true when call to api is success 200",
+      () async {
+        when(client.post(any, body: anyNamed('body'))).thenAnswer(
+            (_) async => http.Response(fixture('success_logo.json'), 200));
+        //act
+        final result = await sut.uploadLogo(tParams.param);
+        //assert
+        expect(result, 'link');
+      },
+    );
+
+    test(
+      "Should throw a ServerException when api call isn't success 200",
+      () async {
+        when(client.post(any, body: anyNamed('body'))).thenAnswer(
+            (_) async => http.Response(fixture('failed.json'), 404));
+        //act
+        final result = sut.uploadLogo;
+        //assert
+        expect(result(tParams.param),
             throwsA(const TypeMatcher<ServerException>()));
       },
     );

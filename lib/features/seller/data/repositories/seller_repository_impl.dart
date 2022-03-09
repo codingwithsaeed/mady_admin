@@ -1,5 +1,7 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
+import 'dart:convert';
+
 import 'package:injectable/injectable.dart';
 import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/core/network/network_info.dart';
@@ -38,7 +40,20 @@ class SellerRepositoryImpl implements SellerRepository {
       return Left(ServerFailure(message: NO_INTERNET_CONNECTION));
 
     try {
-      final result = await dataSource.insertSeller(params);
+      final result = await dataSource.insertSeller(params.toJson());
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> uploadLogo(Params params) async {
+    if (!await networkInfo.isConnected)
+      return Left(ServerFailure(message: NO_INTERNET_CONNECTION));
+
+    try {
+      final result = await dataSource.uploadLogo(params.param);
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));

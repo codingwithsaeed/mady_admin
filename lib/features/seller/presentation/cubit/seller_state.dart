@@ -24,6 +24,19 @@ class SellerLoaded extends SellerState {
   List<Object> get props => [list];
 }
 
+class SellerLogoLoaded extends SellerState {
+  final String link;
+
+  const SellerLogoLoaded(this.link);
+
+  @override
+  List<Object> get props => [link];
+}
+
+class SellerInserted extends SellerState {
+  const SellerInserted();
+}
+
 class SellerError extends SellerState {
   final String message;
 

@@ -2,44 +2,70 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mady_admin/core/utils/show_loading.dart';
 import 'package:mady_admin/core/utils/show_snackbar.dart';
 import 'package:mady_admin/features/seller/domain/entities/seller.dart';
 import 'package:mady_admin/features/seller/presentation/cubit/seller_cubit.dart';
+import 'package:mady_admin/features/seller/presentation/pages/add_seller_page.dart';
 import 'package:mady_admin/injection.dart';
 
 import 'single_seller_page.dart';
 
-class SellersPage extends StatefulWidget {
+class SellersPage extends StatelessWidget {
   static const String id = 'SellersPage';
   const SellersPage({Key? key}) : super(key: key);
 
   @override
-  State<SellersPage> createState() => _SellersPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider<SellerCubit>(
+      create: (context) => getIt<SellerCubit>(),
+      child: const SellersPageImpl(),
+    );
+  }
 }
 
-class _SellersPageState extends State<SellersPage>
+class SellersPageImpl extends StatefulWidget {
+  const SellersPageImpl({Key? key}) : super(key: key);
+
+  @override
+  State<SellersPageImpl> createState() => _SellersPageImplState();
+}
+
+class _SellersPageImplState extends State<SellersPageImpl>
     with AutomaticKeepAliveClientMixin {
   bool isLoading = false;
 
   @override
+  void initState() {
+    super.initState();
+    refreshData();
+  }
+
+  Future<void> refreshData() =>
+      BlocProvider.of<SellerCubit>(context).getSellers();
+
+  @override
   bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      body: BlocProvider<SellerCubit>(
-        create: (context) => getIt<SellerCubit>()..getSellers(),
-        child: buildBody(),
+      body: RefreshIndicator(
+        onRefresh: () async => refreshData(),
+        child: BlocConsumer<SellerCubit, SellerState>(
+          listener: cubitListener,
+          builder: cubitBuilder,
+        ),
       ),
-    );
-  }
-
-  Widget buildBody() {
-    return BlocConsumer<SellerCubit, SellerState>(
-      listener: cubitListener,
-      builder: cubitBuilder,
+      floatingActionButton: FloatingActionButton(
+        onPressed: (() async {
+          final bool? isAdded =
+              await Navigator.pushNamed(context, AddSellerPage.id) as bool;
+          if (isAdded!) refreshData();
+        }),
+        child: const Icon(Icons.add),
+      ),
     );
   }
 
@@ -48,7 +74,11 @@ class _SellersPageState extends State<SellersPage>
       if (state.list.isNotEmpty) return buildSellersList(context, state.list);
       return buildEmptyBody();
     }
-    return const Center(child: Text('...'));
+    return Center(
+        child: TextButton(
+      onPressed: () async => refreshData(),
+      child: const Text('رفرش'),
+    ));
   }
 
   void cubitListener(context, state) {
@@ -62,7 +92,7 @@ class _SellersPageState extends State<SellersPage>
         Navigator.of(context).pop();
         setState(() => isLoading = false);
       }
-      if (state is SellerError) showSnackbar(context, state.message);
+      if (state is SellerError) showSnackbar(context, message: state.message);
     }
   }
 
@@ -73,20 +103,27 @@ class _SellersPageState extends State<SellersPage>
           leading: CircleAvatar(
             backgroundImage: NetworkImage(sellers[index].logo),
           ),
-          title: Text(sellers[index].storeName),
-          onTap: () async {
-            await Navigator.pushNamed(context, SingleSellerPage.id,
-                arguments: sellers[index]);
-            BlocProvider.of<SellerCubit>(context).getSellers();
-          },
+          title: Row(
+            children: [
+              Text(
+                sellers[index].storeName,
+                textDirection: TextDirection.ltr,
+              ),
+              const Expanded(child: Text('')),
+            ],
+          ),
+          onTap: () => Navigator.pushNamed(context, SingleSellerPage.id,
+              arguments: sellers[index]),
         ),
       ),
       itemCount: sellers.length,
       shrinkWrap: true,
       padding: const EdgeInsets.all(5.0),
+      physics: const AlwaysScrollableScrollPhysics(),
     );
   }
 
   Widget buildEmptyBody() => const Center(
-      child: Text('هیچ فروشنده ای وجود ندارد', style: TextStyle(fontSize: 20.0)));
+      child:
+          Text('هیچ فروشنده ای وجود ندارد', style: TextStyle(fontSize: 20.0)));
 }

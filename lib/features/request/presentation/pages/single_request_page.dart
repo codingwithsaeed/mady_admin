@@ -6,8 +6,7 @@ import 'package:mady_admin/core/utils/show_snackbar.dart';
 import 'package:mady_admin/features/request/domain/entities/request.dart';
 import 'package:mady_admin/features/request/presentation/cubit/request_cubit.dart';
 import 'package:mady_admin/injection.dart';
-
-import '../widgets/widgets.dart';
+import 'package:mady_admin/core/x/x_widgets.dart';
 
 class SingleRequestPage extends StatefulWidget {
   static const id = 'SingleRequestPage';
@@ -26,15 +25,9 @@ class _SingleRequestPageState extends State<SingleRequestPage> {
         ModalRoute.of(context)!.settings.arguments as Request;
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         title: Text(request.storeName),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_forward_sharp),
-          )
-        ],
       ),
       body: BlocProvider(
         create: (context) => getIt<RequestCubit>(),
@@ -51,7 +44,7 @@ class _SingleRequestPageState extends State<SingleRequestPage> {
                 setState(() => isLoading = false);
               }
               if (state is VerifyRequestLoaded) Navigator.pop(context);
-              if (state is RequestError) showSnackbar(context, state.message);
+              if (state is RequestError) showSnackbar(context, message:  state.message);
             }
           },
           builder: (context, state) {
@@ -69,22 +62,25 @@ class _SingleRequestPageState extends State<SingleRequestPage> {
           const SizedBox(
             height: 10.0,
           ),
-          CircleLogo(logo: request.logo),
+          XCircleLogo(logo: request.logo),
           const SizedBox(
             height: 10.0,
           ),
-          DetailsCard(
-            //TODO: StoreName with number must be fixed.
-            title: 'نام فروشگاه: ${request.storeName}',
+          XDetailsCard(
+            name: 'نام فروشگاه:',
+            value: request.storeName,
           ),
-          DetailsCard(
-            title: 'شماره موبایل: ${request.phone.replaceFirst('+98', '0')}',
+          XDetailsCard(
+            name: 'شماره موبایل:',
+            value: request.phone.replaceFirst('+98', '0'),
           ),
-          DetailsCard(
-            title: 'دسته بندی: ${request.category}',
+          XDetailsCard(
+            name: 'دسته بندی:',
+            value: request.category,
           ),
-          DetailsCard(
-            title: 'آدرس: ${request.address}',
+          XDetailsCard(
+            name: 'آدرس:',
+            value: request.address,
           ),
           Card(
             child: SizedBox(
@@ -106,13 +102,13 @@ class _SingleRequestPageState extends State<SingleRequestPage> {
           ),
           Row(
             children: [
-              AcceptanceButton(
+              XAcceptanceButton(
                 color: Colors.red,
                 title: 'رد درخواست',
                 onPressed: () => BlocProvider.of<RequestCubit>(context)
                     .verifyRequest(request.srid, 'deny_seller'),
               ),
-              AcceptanceButton(
+              XAcceptanceButton(
                 color: Colors.green,
                 title: 'قبول درخواست',
                 onPressed: () => BlocProvider.of<RequestCubit>(context)

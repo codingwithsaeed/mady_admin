@@ -85,7 +85,7 @@ void main() {
   });
 
   group('Testing insert seller', () {
-    const tParams = AddSeller(
+    final tParams = AddSeller(
         storeName: 'فروشگاه ۱',
         phone: '09139902080',
         category: 'ARAYESHI',
@@ -116,6 +116,40 @@ void main() {
             (_) async => Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
         //act
         final result = await sut.insertSeller(tParams);
+        //assert
+        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+      },
+    );
+  });
+
+  group('Testing upload logo', () {
+    const tParams = Params({
+      'action': 'upload_logo',
+      'name': 'imageName',
+      'image': 'gdfgdfgsdfgdfgsdgf'
+    });
+
+    test(
+      "Should return a [true] if call to repo was succeed",
+      () async {
+        //arrange
+        when(repository.uploadLogo(any))
+            .thenAnswer((_) async => const Right('link'));
+        //act
+        final result = await sut.uploadLogo(tParams);
+        //assert
+        expect(result, const Right('link'));
+      },
+    );
+
+    test(
+      "Should return a ServerFailure if call to repo was unsucceed",
+      () async {
+        //arrange
+        when(repository.uploadLogo(any)).thenAnswer(
+            (_) async => Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        //act
+        final result = await sut.uploadLogo(tParams);
         //assert
         expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
       },

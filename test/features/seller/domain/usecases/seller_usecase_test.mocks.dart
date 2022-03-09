@@ -48,4 +48,10 @@ class MockSellerRepository extends _i1.Mock implements _i3.SellerRepository {
               returnValue: Future<_i2.Either<_i5.Failure, bool>>.value(
                   _FakeEither_0<_i5.Failure, bool>()))
           as _i4.Future<_i2.Either<_i5.Failure, bool>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, String>> uploadLogo(_i7.Params? params) =>
+      (super.noSuchMethod(Invocation.method(#uploadLogo, [params]),
+              returnValue: Future<_i2.Either<_i5.Failure, String>>.value(
+                  _FakeEither_0<_i5.Failure, String>()))
+          as _i4.Future<_i2.Either<_i5.Failure, String>>);
 }

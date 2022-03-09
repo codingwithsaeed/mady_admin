@@ -61,7 +61,7 @@ class _RequestsPageState extends State<RequestsPage>
         Navigator.of(context).pop();
         setState(() => isLoading = false);
       }
-      if (state is RequestError) showSnackbar(context, state.message);
+      if (state is RequestError) showSnackbar(context, message:  state.message);
     }
   }
 

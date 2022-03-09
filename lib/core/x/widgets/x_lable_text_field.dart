@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
-class FaTextField extends StatelessWidget {
-  final IconData icon;
-  final String hint;
+class XLableTextField extends StatelessWidget {
+  final String lable;
+  final IconData? icon;
   final bool obscureText;
   final TextEditingController? controller;
   final void Function(String)? onChanged;
-  const FaTextField({
-    required this.icon,
-    required this.hint,
+  final String? Function(String?)? validator;
+  final bool? isMultiline;
+  const XLableTextField({
+    required this.lable,
+    this.icon,
     this.onChanged,
     this.controller,
+    this.validator,
     this.obscureText = false,
+    this.isMultiline = false,
     Key? key,
   }) : super(key: key);
 
@@ -19,16 +23,21 @@ class FaTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: TextField(
+      child: TextFormField(
+        validator: validator,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        minLines: 1,
+        maxLines: isMultiline! ? 3 : 1,
+        textAlign: TextAlign.right,
         autofocus: false,
         controller: controller,
         onChanged: onChanged,
         obscureText: obscureText,
-        textDirection: TextDirection.rtl,
         decoration: InputDecoration(
+          labelText: lable,
+          floatingLabelStyle: const TextStyle(fontSize: 18.0),
+          alignLabelWithHint: true,
           suffixIcon: Icon(icon),
-          hintTextDirection: TextDirection.rtl,
-          hintText: hint,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
