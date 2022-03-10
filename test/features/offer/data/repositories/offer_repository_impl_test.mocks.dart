@@ -32,7 +32,7 @@ class MockOfferRemoteSource extends _i1.Mock implements _i2.OfferRemoteSource {
   @override
   _i3.Future<List<_i4.CategoryOffer>> getAllOffers(
           Map<String, dynamic>? params) =>
-      (super.noSuchMethod(Invocation.method(#getSellers, [params]),
+      (super.noSuchMethod(Invocation.method(#getAllOffers, [params]),
               returnValue:
                   Future<List<_i4.CategoryOffer>>.value(<_i4.CategoryOffer>[]))
           as _i3.Future<List<_i4.CategoryOffer>>);

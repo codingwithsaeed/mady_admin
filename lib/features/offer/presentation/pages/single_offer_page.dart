@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 
 class SingleOfferPage extends StatelessWidget {
-  final int offerId;
-  const SingleOfferPage({
-    Key? key,
-    required this.offerId,
-  }) : super(key: key);
+  static const id = 'SingleOfferPage';
+  const SingleOfferPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: Text('SingleOfferPage $offerId'),
+        child: Text('SingleOfferPage'),
       ),
     );
   }

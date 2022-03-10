@@ -1,6 +1,7 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 import 'dart:convert';
 import 'package:http/http.dart';
+import 'package:injectable/injectable.dart';
 import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/features/offer/data/models/all_offers.dart';
 import 'package:mady_admin/features/offer/domain/entities/category_offer.dart';
@@ -13,6 +14,7 @@ abstract class OfferRemoteSource {
 
 final url = Uri.parse('http://192.168.1.2/mady/webservice.php');
 
+@Injectable(as: OfferRemoteSource)
 class OfferRemoteSourceImpl implements OfferRemoteSource {
   final Client client;
 
