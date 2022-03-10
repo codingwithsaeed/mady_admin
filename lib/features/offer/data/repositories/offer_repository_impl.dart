@@ -22,7 +22,7 @@ class OfferRepositoryImpl implements OfferRepository {
     try {
       if (!await networkInfo.isConnected)
         return Left(ServerFailure(message: NO_INTERNET_CONNECTION));
-      final result = await dataSource.getSellers({'action': 'get_all_offers'});
+      final result = await dataSource.getAllOffers({'action': 'get_all_offers'});
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));

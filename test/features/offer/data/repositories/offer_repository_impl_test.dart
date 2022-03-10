@@ -40,7 +40,7 @@ void main() {
       () async {
         //arrange
         when(networkInfo.isConnected).thenAnswer((_) async => false);
-        when(dataSource.getSellers(any))
+        when(dataSource.getAllOffers(any))
             .thenAnswer((_) async => allOffers.offers);
         //act
         final result = await sut.getAllOffers(tParams);
@@ -56,13 +56,13 @@ void main() {
       () async {
         //arrange
         when(networkInfo.isConnected).thenAnswer((_) async => true);
-        when(dataSource.getSellers(any))
+        when(dataSource.getAllOffers(any))
             .thenAnswer((_) async => allOffers.offers);
         //act
         final result = await sut.getAllOffers(tParams);
         //assert
         expect(result, Right(allOffers.offers));
-        verify(dataSource.getSellers(tParams.param));
+        verify(dataSource.getAllOffers(tParams.param));
         verifyNoMoreInteractions(dataSource);
       },
     );
@@ -72,7 +72,7 @@ void main() {
       () async {
         //arrange
         when(networkInfo.isConnected).thenAnswer((_) async => true);
-        when(dataSource.getSellers(any))
+        when(dataSource.getAllOffers(any))
             .thenThrow(ServerException(message: NOT_FOUND_EX));
         //act
         final result = await sut.getAllOffers(tParams);
