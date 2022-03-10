@@ -4,9 +4,9 @@ import 'package:mady_admin/features/login/presentation/pages/login_page.dart';
 import 'package:mady_admin/features/request/presentation/pages/single_request_page.dart';
 import 'package:mady_admin/features/seller/presentation/pages/add_seller_page.dart';
 import 'package:mady_admin/features/seller/presentation/pages/select_address_page.dart';
-import 'package:mady_admin/injection.dart';
 import 'package:mady_admin/main_page.dart';
 
+import 'di/injection.dart';
 import 'features/seller/presentation/pages/single_seller_page.dart';
 
 void main() {

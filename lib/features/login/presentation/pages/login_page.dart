@@ -5,7 +5,7 @@ import 'package:mady_admin/core/utils/show_loading.dart';
 import 'package:mady_admin/core/utils/show_snackbar.dart';
 import 'package:mady_admin/core/x/x_widgets.dart';
 import 'package:mady_admin/features/login/presentation/cubit/login_cubit.dart';
-import 'package:mady_admin/injection.dart';
+import 'package:mady_admin/di/injection.dart';
 import 'package:mady_admin/main_page.dart';
 
 class LoginPage extends StatelessWidget {

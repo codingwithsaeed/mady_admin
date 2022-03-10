@@ -10,24 +10,26 @@ import 'package:injectable/injectable.dart' as _i2;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i4;
 
-import 'core/network/network_info.dart' as _i6;
-import 'core/utils/injectable_modules.dart' as _i21;
-import 'features/login/data/datasources/login_remote_datasource.dart' as _i5;
-import 'features/login/data/repositories/login_repository_impl.dart' as _i16;
-import 'features/login/domain/repositories/login_repository.dart' as _i15;
-import 'features/login/domain/usecases/login_usecase.dart' as _i17;
-import 'features/login/presentation/cubit/login_cubit.dart' as _i20;
-import 'features/request/data/datasources/request_remote_datasource.dart'
+import '../core/network/network_info.dart' as _i6;
+import '../core/utils/injectable_modules.dart' as _i21;
+import '../features/login/data/datasources/login_remote_datasource.dart' as _i5;
+import '../features/login/data/repositories/login_repository_impl.dart' as _i16;
+import '../features/login/domain/repositories/login_repository.dart' as _i15;
+import '../features/login/domain/usecases/login_usecase.dart' as _i17;
+import '../features/login/presentation/cubit/login_cubit.dart' as _i20;
+import '../features/request/data/datasources/request_remote_datasource.dart'
     as _i7;
-import 'features/request/data/repositories/request_repository_impl.dart' as _i9;
-import 'features/request/domain/repositories/request_repository.dart' as _i8;
-import 'features/request/domain/usecases/request_usecase.dart' as _i10;
-import 'features/request/presentation/cubit/request_cubit.dart' as _i18;
-import 'features/seller/data/datasources/seller_remote_source.dart' as _i11;
-import 'features/seller/data/repositories/seller_repository_impl.dart' as _i13;
-import 'features/seller/domain/repositories/seller_repository.dart' as _i12;
-import 'features/seller/domain/usecases/seller_usecase.dart' as _i14;
-import 'features/seller/presentation/cubit/seller_cubit.dart'
+import '../features/request/data/repositories/request_repository_impl.dart'
+    as _i9;
+import '../features/request/domain/repositories/request_repository.dart' as _i8;
+import '../features/request/domain/usecases/request_usecase.dart' as _i10;
+import '../features/request/presentation/cubit/request_cubit.dart' as _i18;
+import '../features/seller/data/datasources/seller_remote_source.dart' as _i11;
+import '../features/seller/data/repositories/seller_repository_impl.dart'
+    as _i13;
+import '../features/seller/domain/repositories/seller_repository.dart' as _i12;
+import '../features/seller/domain/usecases/seller_usecase.dart' as _i14;
+import '../features/seller/presentation/cubit/seller_cubit.dart'
     as _i19; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars

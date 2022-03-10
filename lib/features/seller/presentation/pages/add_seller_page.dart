@@ -14,7 +14,7 @@ import 'package:mady_admin/features/seller/domain/entities/add_seller.dart';
 import 'package:mady_admin/features/seller/domain/entities/shop_categories.dart';
 import 'package:mady_admin/features/seller/presentation/cubit/seller_cubit.dart';
 import 'package:mady_admin/features/seller/presentation/pages/select_address_page.dart';
-import 'package:mady_admin/injection.dart';
+import 'package:mady_admin/di/injection.dart';
 
 class AddSellerPage extends StatefulWidget {
   static const id = 'AddSellerPage';

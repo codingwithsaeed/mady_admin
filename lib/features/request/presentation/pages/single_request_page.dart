@@ -5,7 +5,7 @@ import 'package:mady_admin/core/utils/show_loading.dart';
 import 'package:mady_admin/core/utils/show_snackbar.dart';
 import 'package:mady_admin/features/request/domain/entities/request.dart';
 import 'package:mady_admin/features/request/presentation/cubit/request_cubit.dart';
-import 'package:mady_admin/injection.dart';
+import 'package:mady_admin/di/injection.dart';
 import 'package:mady_admin/core/x/x_widgets.dart';
 
 class SingleRequestPage extends StatefulWidget {

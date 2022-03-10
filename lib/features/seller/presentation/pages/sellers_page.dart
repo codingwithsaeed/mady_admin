@@ -7,7 +7,7 @@ import 'package:mady_admin/core/utils/show_snackbar.dart';
 import 'package:mady_admin/features/seller/domain/entities/seller.dart';
 import 'package:mady_admin/features/seller/presentation/cubit/seller_cubit.dart';
 import 'package:mady_admin/features/seller/presentation/pages/add_seller_page.dart';
-import 'package:mady_admin/injection.dart';
+import 'package:mady_admin/di/injection.dart';
 
 import 'single_seller_page.dart';
 
