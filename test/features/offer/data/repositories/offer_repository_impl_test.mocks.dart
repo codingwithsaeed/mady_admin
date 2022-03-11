@@ -7,8 +7,7 @@ import 'dart:async' as _i3;
 import 'package:mady_admin/core/network/network_info.dart' as _i5;
 import 'package:mady_admin/features/offer/data/datasources/offer_remote_source.dart'
     as _i2;
-import 'package:mady_admin/features/offer/domain/entities/category_offer.dart'
-    as _i4;
+import 'package:mady_admin/features/offer/domain/entities/offer.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -30,12 +29,10 @@ class MockOfferRemoteSource extends _i1.Mock implements _i2.OfferRemoteSource {
   }
 
   @override
-  _i3.Future<List<_i4.CategoryOffer>> getAllOffers(
-          Map<String, dynamic>? params) =>
+  _i3.Future<List<_i4.Offer>> getAllOffers(Map<String, dynamic>? params) =>
       (super.noSuchMethod(Invocation.method(#getAllOffers, [params]),
-              returnValue:
-                  Future<List<_i4.CategoryOffer>>.value(<_i4.CategoryOffer>[]))
-          as _i3.Future<List<_i4.CategoryOffer>>);
+              returnValue: Future<List<_i4.Offer>>.value(<_i4.Offer>[]))
+          as _i3.Future<List<_i4.Offer>>);
 }
 
 /// A class which mocks [NetworkInfo].

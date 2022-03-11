@@ -5,7 +5,7 @@ import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/core/network/network_info.dart';
 import 'package:mady_admin/features/login/data/repositories/login_repository_impl.dart';
 import 'package:mady_admin/features/offer/data/datasources/offer_remote_source.dart';
-import 'package:mady_admin/features/offer/domain/entities/category_offer.dart';
+import 'package:mady_admin/features/offer/domain/entities/offer.dart';
 import 'package:mady_admin/core/usecases/usecase.dart';
 import 'package:mady_admin/core/errors/failures.dart';
 import 'package:dartz/dartz.dart';
@@ -19,7 +19,7 @@ class OfferRepositoryImpl implements OfferRepository {
   OfferRepositoryImpl(this.dataSource, this.networkInfo);
 
   @override
-  Future<Either<Failure, List<CategoryOffer>>> getAllOffers(
+  Future<Either<Failure, List<Offer>>> getAllOffers(
       Params params) async {
     try {
       if (!await networkInfo.isConnected)

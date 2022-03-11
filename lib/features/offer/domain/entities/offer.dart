@@ -19,7 +19,7 @@ class Offer extends Equatable {
     required this.logo,
     required this.lat,
     required this.lng,
-    required this.distance,
+    this.distance,
   });
 
   final String oid;
@@ -39,7 +39,7 @@ class Offer extends Equatable {
   final String logo;
   final String lat;
   final String lng;
-  final String distance;
+  final String? distance;
 
   factory Offer.fromJson(Map<String, dynamic> json) => Offer(
         date: json["date"],

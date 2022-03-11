@@ -7,8 +7,7 @@ import 'dart:async' as _i4;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mady_admin/core/errors/failures.dart' as _i5;
 import 'package:mady_admin/core/usecases/usecase.dart' as _i7;
-import 'package:mady_admin/features/offer/domain/entities/category_offer.dart'
-    as _i6;
+import 'package:mady_admin/features/offer/domain/entities/offer.dart' as _i6;
 import 'package:mady_admin/features/offer/domain/repositories/offer_repository.dart'
     as _i3;
 import 'package:mockito/mockito.dart' as _i1;
@@ -34,11 +33,10 @@ class MockOfferRepository extends _i1.Mock implements _i3.OfferRepository {
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.CategoryOffer>>> getAllOffers(
+  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Offer>>> getAllOffers(
           _i7.Params? params) =>
       (super.noSuchMethod(Invocation.method(#getAllOffers, [params]),
-          returnValue:
-              Future<_i2.Either<_i5.Failure, List<_i6.CategoryOffer>>>.value(
-                  _FakeEither_0<_i5.Failure, List<_i6.CategoryOffer>>())) as _i4
-          .Future<_i2.Either<_i5.Failure, List<_i6.CategoryOffer>>>);
+          returnValue: Future<_i2.Either<_i5.Failure, List<_i6.Offer>>>.value(
+              _FakeEither_0<_i5.Failure, List<_i6.Offer>>())) as _i4
+          .Future<_i2.Either<_i5.Failure, List<_i6.Offer>>>);
 }

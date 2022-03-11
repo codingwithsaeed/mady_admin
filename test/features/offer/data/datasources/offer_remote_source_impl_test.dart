@@ -22,7 +22,7 @@ void main() {
   });
 
   group('Testing get sellers list', () {
-    final url = Uri.parse('http://192.168.1.2/mady/webservice.php');
+    final url = Uri.parse('http://192.168.1.2/mady/webservice_admin.php');
     const tParams = Params({'action': 'get_all_offers'});
 
     final allOffers =

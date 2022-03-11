@@ -10,7 +10,6 @@ import 'package:mady_admin/features/login/data/repositories/login_repository_imp
 import 'package:mady_admin/features/offer/data/datasources/offer_remote_source.dart';
 import 'package:mady_admin/features/offer/data/models/all_offers.dart';
 import 'package:mady_admin/features/offer/data/repositories/offer_repository_impl.dart';
-import 'package:mady_admin/features/offer/domain/entities/category_offer.dart';
 import 'package:mady_admin/features/offer/domain/entities/offer.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

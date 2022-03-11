@@ -16,7 +16,7 @@ class OfferLoading extends OfferState {
 }
 
 class OfferLoaded extends OfferState {
-  final List<CategoryOffer> list;
+  final List<Offer> list;
   const OfferLoaded(this.list);
   @override
   List<Object> get props => [list];

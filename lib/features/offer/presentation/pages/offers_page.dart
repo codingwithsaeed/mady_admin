@@ -5,10 +5,9 @@ import 'package:mady_admin/core/utils/show_loading.dart';
 import 'package:mady_admin/core/utils/show_snackbar.dart';
 import 'package:mady_admin/core/x/x_widgets.dart';
 import 'package:mady_admin/di/injection.dart';
-import 'package:mady_admin/features/offer/domain/entities/category_offer.dart';
+import 'package:mady_admin/features/offer/domain/entities/offer.dart';
 import 'package:mady_admin/features/offer/presentation/cubit/offer_cubit.dart';
 import 'package:mady_admin/features/offer/presentation/pages/add_offer_page.dart';
-import 'package:mady_admin/features/offer/presentation/pages/single_offer_page.dart';
 
 class OffersPage extends StatelessWidget {
   const OffersPage({Key? key}) : super(key: key);
@@ -63,8 +62,7 @@ class _OffersPageImplState extends State<OffersPageImpl>
 
   Widget cubitBuilder(context, state) {
     if (state is OfferLoaded) {
-      if (state.list.isNotEmpty)
-        return buildOffersList(context, trimEmptyCategories(state.list));
+      if (state.list.isNotEmpty) return buildOffersList(context, state.list);
       return buildEmptyBody();
     }
     return Center(
@@ -89,54 +87,31 @@ class _OffersPageImplState extends State<OffersPageImpl>
     }
   }
 
-  Widget buildOffersList(BuildContext context, List<CategoryOffer> offers) {
-    return ListView.builder(
-      itemBuilder: (_, index) => Card(
-        child: ListTile(
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+  Widget buildOffersList(BuildContext context, List<Offer> offers) {
+    return GridView.builder(
+      itemCount: offers.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, crossAxisSpacing: 2.0, mainAxisSpacing: 2.0),
+      itemBuilder: (BuildContext context, int index) {
+        return Card(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                offers[index].name,
-                textDirection: TextDirection.ltr,
+              XCircleLogo(
+                logo: offers[index].picture,
+                radius: 60,
               ),
               const SizedBox(
                 height: 10,
               ),
-              ListView.builder(
-                itemBuilder: (_, innerIndex) {
-                  return Stack(
-                    children: [
-                      XCircleLogo(
-                        logo: offers[index].data![innerIndex].picture,
-                      ),
-                      Text(offers[index].data![innerIndex].content)
-                    ],
-                  );
-                },
-                itemCount: offers[index].data!.length,
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                physics: const ClampingScrollPhysics(),
-              ),
+              Text(offers[index].content)
             ],
           ),
-          onTap: () => Navigator.pushNamed(context, SingleOfferPage.id,
-              arguments: offers[index]),
-        ),
-      ),
-      itemCount: offers.length,
-      padding: const EdgeInsets.all(5.0),
+        );
+      },
     );
   }
 
   Widget buildEmptyBody() => const Center(
       child: Text('هیچ آفری وجود ندارد', style: TextStyle(fontSize: 20.0)));
-
-  List<CategoryOffer> trimEmptyCategories(List<CategoryOffer> list) {
-    for (int i = 0; i < list.length; i++) {
-      if (list[i].data!.isEmpty) list.removeAt(i);
-    }
-    return list;
-  }
 }
