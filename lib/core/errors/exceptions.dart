@@ -5,3 +5,9 @@ class ServerException implements Exception {
 
   ServerException({required this.message});
 }
+
+class SharedException implements Exception {
+  final String message;
+
+  const SharedException({required this.message});
+}
