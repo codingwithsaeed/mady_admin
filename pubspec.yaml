@@ -39,7 +39,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:     
-    - assets/images/sale.png
+    - assets/images/sale-red.png
+    - assets/images/sale-white.png
   fonts:
     - family: Vazir
       fonts:

@@ -26,6 +26,7 @@ class LoginPage extends StatelessWidget {
   Widget buildBody(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         title: const Text('مادی برای ادمین'),
       ),
@@ -55,7 +56,7 @@ class LoginPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Flexible(
-          child: Image.asset('assets/images/sale.png'),
+          child: Image.asset('assets/images/sale-red.png'),
         ),
         Flexible(
           flex: 2,

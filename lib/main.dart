@@ -6,12 +6,14 @@ import 'package:mady_admin/features/offer/presentation/pages/single_offer_page.d
 import 'package:mady_admin/features/request/presentation/pages/single_request_page.dart';
 import 'package:mady_admin/features/seller/presentation/pages/add_seller_page.dart';
 import 'package:mady_admin/features/seller/presentation/pages/select_address_page.dart';
+import 'package:mady_admin/features/splash/presentation/pages/splash_page.dart';
 import 'package:mady_admin/main_page.dart';
 import 'di/injection.dart';
 import 'features/seller/presentation/pages/single_seller_page.dart';
 
-void main() {
-  configureInjection();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await configureInjection();
   runApp(const MyApp());
 }
 
@@ -34,10 +36,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
         fontFamily: 'Vazir',
       ),
-      initialRoute: MainPage.id,
+      initialRoute: SplashPage.id,
       routes: {
-        LoginPage.id: (context) => LoginPage(),
+        SplashPage.id: (context) => const SplashPage(),
         MainPage.id: (context) => const MainPage(),
+        LoginPage.id: (context) => LoginPage(),
         SingleRequestPage.id: (context) => const SingleRequestPage(),
         SingleSellerPage.id: (context) => const SingleSellerPage(),
         AddSellerPage.id: (context) => const AddSellerPage(),

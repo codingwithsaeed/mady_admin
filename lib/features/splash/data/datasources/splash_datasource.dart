@@ -1,3 +1,4 @@
+import 'package:injectable/injectable.dart';
 import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,6 +8,7 @@ abstract class SplashDataSource {
   bool? checkIsUserLoggedIn();
 }
 
+@Injectable(as: SplashDataSource)
 class SplashDataSourceImpl implements SplashDataSource {
   final SharedPreferences _sharedPreferences;
 
