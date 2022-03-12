@@ -52,9 +52,9 @@ class _SplashPageImplState extends State<SplashPageImpl> {
           if (state is SplashError)
             showSnackbar(context, message: state.message, color: Colors.white);
           if (state is SplashLoggedIn)
-            Navigator.pushNamed(context, MainPage.id);
+            Navigator.pushReplacementNamed(context, MainPage.id);
           if (state is SplashNotLoggedIn)
-            Navigator.pushNamed(context, LoginPage.id);
+            Navigator.pushReplacementNamed(context, LoginPage.id);
         },
         builder: (context, state) {
           return Column(
@@ -81,10 +81,12 @@ class _SplashPageImplState extends State<SplashPageImpl> {
   }
 
   Widget buildErrorBody() => TextButton(
-        onPressed: () {},
+        onPressed: () {
+          BlocProvider.of<SplashCubit>(context).checkLogin();
+        },
         child: const Text(
           'تلاش مجدد',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
       );
 

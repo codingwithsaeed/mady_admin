@@ -33,19 +33,17 @@ class SellersPageImpl extends StatefulWidget {
 
 class _SellersPageImplState extends State<SellersPageImpl>
     with AutomaticKeepAliveClientMixin {
-  bool isLoading = false;
+  Future<void> refreshData() =>
+      BlocProvider.of<SellerCubit>(context).getSellers();
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
     refreshData();
   }
-
-  Future<void> refreshData() =>
-      BlocProvider.of<SellerCubit>(context).getSellers();
-
-  @override
-  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +69,7 @@ class _SellersPageImplState extends State<SellersPageImpl>
   }
 
   Widget cubitBuilder(context, state) {
+    if (state is SellerLoading) return buildLoading();
     if (state is SellerLoaded) {
       if (state.list.isNotEmpty) return buildSellersList(context, state.list);
       return buildEmptyBody();
@@ -82,19 +81,14 @@ class _SellersPageImplState extends State<SellersPageImpl>
     ));
   }
 
+  Widget buildLoading() => const Center(
+        child: CircularProgressIndicator(
+          color: Colors.red,
+        ),
+      );
+
   void cubitListener(context, state) {
-    if (state is SellerLoading) {
-      if (!isLoading) {
-        showLoading(context);
-        setState(() => isLoading = true);
-      }
-    } else {
-      if (isLoading) {
-        Navigator.of(context).pop();
-        setState(() => isLoading = false);
-      }
-      if (state is SellerError) showSnackbar(context, message: state.message);
-    }
+    if (state is SellerError) showSnackbar(context, message: state.message);
   }
 
   Widget buildSellersList(BuildContext context, List<Seller> sellers) {

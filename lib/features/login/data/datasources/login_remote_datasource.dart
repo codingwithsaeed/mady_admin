@@ -12,7 +12,7 @@ abstract class LoginRemoteDataSource {
   Future<AdminModel> authenticate(Params params);
 }
 
-final url = Uri.parse('http://192.168.1.2/mady/webservice_admin.php');
+final url = Uri.parse('https://codingwithsaeed.ir/api/mady/webservice_admin.php');
 
 @Injectable(as: LoginRemoteDataSource)
 class LoginRemoteDataSourceImpl implements LoginRemoteDataSource {

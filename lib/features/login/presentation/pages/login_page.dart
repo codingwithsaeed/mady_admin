@@ -45,7 +45,8 @@ class LoginPage extends StatelessWidget {
       showLoading(context);
     else {
       Navigator.of(context).pop();
-      if (state is LoginLoaded) Navigator.pushNamed(context, MainPage.id);
+      if (state is LoginLoaded)
+        Navigator.pushReplacementNamed(context, MainPage.id);
       if (state is LoginError) showSnackbar(context, message: state.message);
     }
   }

@@ -3,8 +3,10 @@ import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mady_admin/core/errors/failures.dart';
 import 'package:mady_admin/core/usecases/usecase.dart';
+import 'package:mady_admin/di/injection.dart';
 import 'package:mady_admin/features/login/domain/entities/admin.dart';
 import 'package:mady_admin/features/login/domain/usecases/login_usecase.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_state.dart';
 
@@ -35,6 +37,7 @@ class LoginCubit extends Cubit<LoginState> {
       },
       (admin) {
         emit(LoginLoaded(admin));
+        getIt<SharedPreferences>().setBool('LOGIN', true);
       },
     );
   }

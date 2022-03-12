@@ -7,7 +7,7 @@ import 'package:mady_admin/core/x/x_widgets.dart';
 import 'package:mady_admin/di/injection.dart';
 import 'package:mady_admin/features/offer/domain/entities/offer.dart';
 import 'package:mady_admin/features/offer/presentation/cubit/offer_cubit.dart';
-import 'package:mady_admin/features/offer/presentation/pages/add_offer_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mady_admin/features/offer/presentation/pages/single_offer_page.dart';
 
 class OffersPage extends StatelessWidget {
@@ -31,8 +31,6 @@ class OffersPageImpl extends StatefulWidget {
 
 class _OffersPageImplState extends State<OffersPageImpl>
     with AutomaticKeepAliveClientMixin {
-  bool isLoading = false;
-
   Future<void> refreshData() =>
       BlocProvider.of<OfferCubit>(context).getAllOffers();
 
@@ -59,9 +57,17 @@ class _OffersPageImplState extends State<OffersPageImpl>
       floatingActionButton: FloatingActionButton(
         heroTag: null,
         onPressed: (() async {
-          final dynamic isAdded =
-              await Navigator.pushNamed(context, AddOfferPage.id);
-          if (isAdded != null && isAdded as bool) refreshData();
+          // final dynamic isAdded =
+          //     await Navigator.pushNamed(context, AddOfferPage.id);
+          // if (isAdded != null && isAdded as bool) refreshData();
+          Fluttertoast.showToast(
+              msg: "به زودی",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 20.0);
         }),
         child: const Icon(Icons.add),
       ),
@@ -69,6 +75,7 @@ class _OffersPageImplState extends State<OffersPageImpl>
   }
 
   Widget cubitBuilder(context, state) {
+    if (state is OfferLoading) return buildLoading();
     if (state is OfferLoaded) {
       if (state.list.isNotEmpty) return buildOffersList(context, state.list);
       return buildEmptyBody();
@@ -81,18 +88,7 @@ class _OffersPageImplState extends State<OffersPageImpl>
   }
 
   void cubitListener(context, state) {
-    if (state is OfferLoading) {
-      if (!isLoading) {
-        showLoading(context);
-        setState(() => isLoading = true);
-      }
-    } else {
-      if (isLoading) {
-        Navigator.of(context).pop();
-        setState(() => isLoading = false);
-      }
-      if (state is OfferError) showSnackbar(context, message: state.message);
-    }
+    if (state is OfferError) showSnackbar(context, message: state.message);
   }
 
   Widget buildOffersList(BuildContext context, List<Offer> offers) {
@@ -123,6 +119,12 @@ class _OffersPageImplState extends State<OffersPageImpl>
       },
     );
   }
+
+  Widget buildLoading() => const Center(
+        child: CircularProgressIndicator(
+          color: Colors.red,
+        ),
+      );
 
   Widget buildEmptyBody() => const Center(
       child: Text('هیچ آفری وجود ندارد', style: TextStyle(fontSize: 20.0)));

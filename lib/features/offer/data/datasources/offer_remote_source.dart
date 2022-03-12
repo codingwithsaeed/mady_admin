@@ -12,7 +12,7 @@ abstract class OfferRemoteSource {
   Future<List<Offer>> getAllOffers(Map<String, dynamic> params);
 }
 
-final url = Uri.parse('http://192.168.1.2/mady/webservice_admin.php');
+final url = Uri.parse('https://codingwithsaeed.ir/api/mady/webservice_admin.php');
 
 @Injectable(as: OfferRemoteSource)
 class OfferRemoteSourceImpl implements OfferRemoteSource {
