@@ -10,7 +10,6 @@ import 'package:mady_admin/features/login/data/repositories/login_repository_imp
 import 'package:mady_admin/features/offer/data/datasources/offer_remote_source.dart';
 import 'package:mady_admin/features/offer/data/models/all_offers.dart';
 import 'package:mady_admin/features/offer/data/repositories/offer_repository_impl.dart';
-import 'package:mady_admin/features/offer/domain/entities/offer.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import '../../../../fixtures/fixture_reader.dart';
@@ -44,7 +43,7 @@ void main() {
         //act
         final result = await sut.getAllOffers(tParams);
         //assert
-        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        expect(result, Left(ServerFailure(message: noInternetConnection)));
         verify(networkInfo.isConnected);
         verifyNoMoreInteractions(networkInfo);
       },
@@ -72,11 +71,11 @@ void main() {
         //arrange
         when(networkInfo.isConnected).thenAnswer((_) async => true);
         when(dataSource.getAllOffers(any))
-            .thenThrow(ServerException(message: NOT_FOUND_EX));
+            .thenThrow(ServerException(message: notFoundException));
         //act
         final result = await sut.getAllOffers(tParams);
         //assert
-        expect(result, Left(ServerFailure(message: NOT_FOUND_EX)));
+        expect(result, Left(ServerFailure(message: notFoundException)));
       },
     );
   });

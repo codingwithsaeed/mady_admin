@@ -37,7 +37,7 @@ void main() {
         when(client.post(any, body: anyNamed('body'))).thenAnswer(
             (_) async => http.Response(fixture('success_login.json'), 200));
         //act
-        final result = await dataSource.authenticate(tParams);
+        await dataSource.authenticate(tParams);
         //assert
         verify(client.post(
             Uri.parse('http://192.168.1.2/mady/webservice_admin.php'),

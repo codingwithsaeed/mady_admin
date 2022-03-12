@@ -37,7 +37,7 @@ class RequestRemoteSourceImpl implements RequestRemoteSource {
       else if (model.success == 0)
         return RequestModel(success: model.success, data: const <Request>[]);
       else
-        throw ServerException(message: NO_INTERNET_CONNECTION);
+        throw ServerException(message: noInternetConnection);
     } else {
       throw ServerException(message: 'error code: ${result.statusCode}');
     }
@@ -48,7 +48,7 @@ class RequestRemoteSourceImpl implements RequestRemoteSource {
     final result = await client.post(url, body: params);
     if (result.statusCode == 200) {
       if (jsonDecode(result.body)['success'] == 1) return true;
-      throw ServerException(message: NOT_FOUND_EX);
+      throw ServerException(message: notFoundException);
     }
     throw ServerException(message: '${result.statusCode}');
   }

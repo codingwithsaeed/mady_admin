@@ -28,7 +28,7 @@ class LoginRemoteDataSourceImpl implements LoginRemoteDataSource {
       if (model.success == 1) {
         return model;
       } else {
-        throw ServerException(message: NOT_FOUND_EX);
+        throw ServerException(message: notFoundException);
       }
     } else {
       throw ServerException(message: 'error code: ${result.statusCode}');

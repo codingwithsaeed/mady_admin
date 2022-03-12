@@ -156,7 +156,7 @@ class _AddSellerPageState extends State<AddSellerPage> {
                 seller.validate().fold((message) {
                   showSnackbar(context, message: message);
                 }, (isNotNull) {
-                  print(isNotNull);
+                 
                   BlocProvider.of<SellerCubit>(context)
                       .insertSeller(params: seller);
                 });

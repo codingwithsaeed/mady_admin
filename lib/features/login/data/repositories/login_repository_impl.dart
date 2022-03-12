@@ -8,7 +8,7 @@ import 'package:mady_admin/core/errors/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mady_admin/features/login/domain/repositories/login_repository.dart';
 
-const NO_INTERNET_CONNECTION = 'دستگاه به اینترنت متصل نیست';
+const noInternetConnection = 'دستگاه به اینترنت متصل نیست';
 
 @Injectable(as: LoginRepository)
 class LoginRepositoryImpl implements LoginRepository {
@@ -21,7 +21,7 @@ class LoginRepositoryImpl implements LoginRepository {
   Future<Either<Failure, Admin>> authenticate(Params params) async {
     try {
       if (!await networkInfo.isConnected) {
-        return Left(ServerFailure(message: NO_INTERNET_CONNECTION));
+        return Left(ServerFailure(message: noInternetConnection));
       }
 
       final adminModel = await dataSource.authenticate(params);

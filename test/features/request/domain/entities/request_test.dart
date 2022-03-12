@@ -6,7 +6,7 @@ import 'package:mady_admin/features/request/domain/entities/request.dart';
 import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
-  Request tRequest = Request(
+  const tRequest = Request(
       srid: "1",
       storeName: "عطر آویشن",
       phone: "+989136581814",

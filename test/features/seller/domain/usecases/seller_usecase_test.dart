@@ -25,7 +25,7 @@ void main() {
   group('Testing getSellers', () {
     const tParams = Params({'action': 'get_sellers_list'});
     final tSellersList = [
-      Seller(
+      const Seller(
           sid: "1",
           storeName: "عطر آویشن",
           phone: "+989136581814",
@@ -40,7 +40,7 @@ void main() {
           expire: "1400-12-22",
           hasSpecial: "0",
           specialCount: "0"),
-      Seller(
+      const Seller(
           sid: "2",
           storeName: "2 عطر آویشن",
           phone: "+989136581815",
@@ -75,11 +75,11 @@ void main() {
       () async {
         //arrange
         when(repository.getSellers(any)).thenAnswer(
-            (_) async => Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+            (_) async => Left(ServerFailure(message: noInternetConnection)));
         //act
         final result = await sut.getSellers(tParams);
         //assert
-        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        expect(result, Left(ServerFailure(message: noInternetConnection)));
       },
     );
   });
@@ -113,11 +113,11 @@ void main() {
       () async {
         //arrange
         when(repository.insertSeller(any)).thenAnswer(
-            (_) async => Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+            (_) async => Left(ServerFailure(message: noInternetConnection)));
         //act
         final result = await sut.insertSeller(tParams);
         //assert
-        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        expect(result, Left(ServerFailure(message: noInternetConnection)));
       },
     );
   });
@@ -147,11 +147,11 @@ void main() {
       () async {
         //arrange
         when(repository.uploadLogo(any)).thenAnswer(
-            (_) async => Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+            (_) async => Left(ServerFailure(message: noInternetConnection)));
         //act
         final result = await sut.uploadLogo(tParams);
         //assert
-        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        expect(result, Left(ServerFailure(message: noInternetConnection)));
       },
     );
   });

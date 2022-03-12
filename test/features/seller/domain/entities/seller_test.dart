@@ -7,7 +7,7 @@ import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
   group('Testing Seller', () {
-    final tSeller = Seller(
+    const tSeller = Seller(
         sid: "1",
         storeName: "عطر آویشن",
         phone: "+989136581814",

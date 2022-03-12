@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mady_admin/features/seller/domain/entities/seller.dart';
 import 'package:mady_admin/core/x/x_widgets.dart';
+import 'package:mady_admin/features/seller/domain/entities/shop_categories.dart';
 
 class SingleSellerPage extends StatelessWidget {
   static const id = 'SingleSellerPage';
@@ -24,7 +25,6 @@ class SingleSellerPage extends StatelessWidget {
   }
 
   Widget buildBody(BuildContext context, Seller seller) {
-    //TODO: must add all seller info here!
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -65,6 +65,14 @@ class SingleSellerPage extends StatelessWidget {
                 ),
               ),
             ),
+          ),
+          XDetailsCard(
+            name: 'بسته:',
+            value: Consts.pocketsTitle[int.parse(seller.pocket)],
+          ),
+          XDetailsCard(
+            name: 'انقضای بسته:‌',
+            value: seller.expire,
           ),
           const SizedBox(
             height: 10.0,

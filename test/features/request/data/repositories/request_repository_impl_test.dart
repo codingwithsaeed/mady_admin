@@ -29,7 +29,7 @@ void main() {
 
   group('GetRequests Test', () {
     List<Request> requests = [
-      Request(
+      const Request(
           srid: "2",
           storeName: "2 عطر آویشن",
           phone: "+989136581815",
@@ -40,7 +40,7 @@ void main() {
           lat: "32",
           lng: "51",
           pocket: "1"),
-      Request(
+      const Request(
           srid: "1",
           storeName: "عطر آویشن",
           phone: "+989136581814",
@@ -54,7 +54,6 @@ void main() {
     ];
 
     RequestModel successModel = RequestModel(success: 1, data: requests);
-    RequestModel failedModel = const RequestModel(success: 0);
     test(
       "Should return [ServerFailure] when device is offline",
       () async {
@@ -63,7 +62,7 @@ void main() {
         //act
         final result = await sut.getRequests();
         //assert
-        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        expect(result, Left(ServerFailure(message: noInternetConnection)));
         verify(networkInfo.isConnected);
         verifyNoMoreInteractions(networkInfo);
       },
@@ -90,11 +89,11 @@ void main() {
         //arrange
         when(networkInfo.isConnected).thenAnswer((_) async => true);
         when(remoteSource.getRequests())
-            .thenThrow(ServerException(message: NOT_FOUND_EX));
+            .thenThrow(ServerException(message: notFoundException));
         //act
         final result = await sut.getRequests();
         //assert
-        expect(result, Left(ServerFailure(message: NOT_FOUND_EX)));
+        expect(result, Left(ServerFailure(message: notFoundException)));
       },
     );
   });
@@ -109,7 +108,7 @@ void main() {
         //act
         final result = await sut.verifyRequest(tParams);
         //assert
-        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        expect(result, Left(ServerFailure(message: noInternetConnection)));
         verify(networkInfo.isConnected);
         verifyNoMoreInteractions(networkInfo);
       },
@@ -139,7 +138,7 @@ void main() {
         //act
         final result = await sut.verifyRequest(tParams);
         //assert
-        expect(result, Left(ServerFailure(message: NOT_FOUND_EX)));
+        expect(result, Left(ServerFailure(message: notFoundException)));
       },
     );
 
@@ -149,11 +148,11 @@ void main() {
         //arrange
         when(networkInfo.isConnected).thenAnswer((_) async => true);
         when(remoteSource.verifyRequest(any))
-            .thenThrow(ServerException(message: NOT_FOUND_EX));
+            .thenThrow(ServerException(message: notFoundException));
         //act
         final result = await sut.verifyRequest(tParams);
         //assert
-        expect(result, Left(ServerFailure(message: NOT_FOUND_EX)));
+        expect(result, Left(ServerFailure(message: notFoundException)));
       },
     );
   });

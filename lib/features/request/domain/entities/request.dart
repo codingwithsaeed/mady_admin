@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Request extends Equatable {
-  Request({
+  const Request({
     required this.srid,
     required this.storeName,
     required this.phone,
@@ -14,16 +14,16 @@ class Request extends Equatable {
     required this.pocket,
   });
 
-  String srid;
-  String storeName;
-  String phone;
-  String category;
-  String address;
-  String website;
-  String logo;
-  String lat;
-  String lng;
-  String pocket;
+  final String srid;
+  final String storeName;
+  final String phone;
+  final String category;
+  final String address;
+  final String website;
+  final String logo;
+  final String lat;
+  final String lng;
+  final String pocket;
 
   factory Request.fromJson(Map<String, dynamic> json) => Request(
         srid: json["srid"],

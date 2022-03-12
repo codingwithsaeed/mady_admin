@@ -8,6 +8,7 @@ import 'package:mady_admin/di/injection.dart';
 import 'package:mady_admin/features/offer/domain/entities/offer.dart';
 import 'package:mady_admin/features/offer/presentation/cubit/offer_cubit.dart';
 import 'package:mady_admin/features/offer/presentation/pages/add_offer_page.dart';
+import 'package:mady_admin/features/offer/presentation/pages/single_offer_page.dart';
 
 class OffersPage extends StatelessWidget {
   const OffersPage({Key? key}) : super(key: key);
@@ -39,6 +40,12 @@ class _OffersPageImplState extends State<OffersPageImpl>
   bool get wantKeepAlive => true;
 
   @override
+  void initState() {
+    super.initState();
+    refreshData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
@@ -50,10 +57,11 @@ class _OffersPageImplState extends State<OffersPageImpl>
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: null,
         onPressed: (() async {
-          final bool? isAdded =
-              await Navigator.pushNamed(context, AddOfferPage.id) as bool;
-          if (isAdded!) refreshData();
+          final dynamic isAdded =
+              await Navigator.pushNamed(context, AddOfferPage.id);
+          if (isAdded != null && isAdded as bool) refreshData();
         }),
         child: const Icon(Icons.add),
       ),
@@ -93,19 +101,23 @@ class _OffersPageImplState extends State<OffersPageImpl>
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, crossAxisSpacing: 2.0, mainAxisSpacing: 2.0),
       itemBuilder: (BuildContext context, int index) {
-        return Card(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              XCircleLogo(
-                logo: offers[index].picture,
-                radius: 60,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(offers[index].content)
-            ],
+        return GestureDetector(
+          onTap: () => Navigator.pushNamed(context, SingleOfferPage.id,
+              arguments: offers[index]),
+          child: Card(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                XCircleLogo(
+                  logo: offers[index].picture,
+                  radius: 60,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(offers[index].content)
+              ],
+            ),
           ),
         );
       },

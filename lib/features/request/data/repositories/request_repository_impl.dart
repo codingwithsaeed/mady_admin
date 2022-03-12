@@ -22,7 +22,7 @@ class RequestRepositoryImpl implements RequestRepository {
   Future<Either<Failure, List<Request>>> getRequests() async {
     try {
       if (!await networkInfo.isConnected) {
-        return Left(ServerFailure(message: NO_INTERNET_CONNECTION));
+        return Left(ServerFailure(message: noInternetConnection));
       }
       final result = await dataSource.getRequests();
       return Right(result.data!);
@@ -37,10 +37,10 @@ class RequestRepositoryImpl implements RequestRepository {
   Future<Either<Failure, bool>> verifyRequest(Params params) async {
     try {
       if (!await networkInfo.isConnected)
-        return Left(ServerFailure(message: NO_INTERNET_CONNECTION));
+        return Left(ServerFailure(message: noInternetConnection));
       final result = await dataSource.verifyRequest(params.param);
       if (result) return Right(result);
-      return Left(ServerFailure(message: NOT_FOUND_EX));
+      return Left(ServerFailure(message: notFoundException));
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
     }

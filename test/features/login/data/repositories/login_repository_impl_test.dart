@@ -43,7 +43,7 @@ void main() {
         //act
         final result = await repository.authenticate(params);
         //assert
-        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        expect(result, Left(ServerFailure(message: noInternetConnection)));
         verify(networkInfo.isConnected);
         verifyNoMoreInteractions(networkInfo);
       },
@@ -69,11 +69,11 @@ void main() {
       () async {
         //arrange
         when(networkInfo.isConnected).thenAnswer((_) async => true);
-        when(dataSource.authenticate(any)).thenThrow(ServerException(message: NOT_FOUND_EX));
+        when(dataSource.authenticate(any)).thenThrow(ServerException(message: notFoundException));
         //act
         final result = await repository.authenticate(params);
         //assert
-        expect(result, Left(ServerFailure(message: NOT_FOUND_EX)));
+        expect(result, Left(ServerFailure(message: notFoundException)));
         verify(dataSource.authenticate(params));
         verifyNoMoreInteractions(dataSource);
       },

@@ -1,6 +1,6 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
-import 'dart:convert';
+
 
 import 'package:injectable/injectable.dart';
 import 'package:mady_admin/core/errors/exceptions.dart';
@@ -24,7 +24,7 @@ class SellerRepositoryImpl implements SellerRepository {
   @override
   Future<Either<Failure, List<Seller>>> getSellers(Params params) async {
     if (!await networkInfo.isConnected)
-      return Left(ServerFailure(message: NO_INTERNET_CONNECTION));
+      return Left(ServerFailure(message: noInternetConnection));
 
     try {
       final result = await dataSource.getSellers(params.param);
@@ -37,7 +37,7 @@ class SellerRepositoryImpl implements SellerRepository {
   @override
   Future<Either<Failure, bool>> insertSeller(AddSeller params) async {
     if (!await networkInfo.isConnected)
-      return Left(ServerFailure(message: NO_INTERNET_CONNECTION));
+      return Left(ServerFailure(message: noInternetConnection));
 
     try {
       final result = await dataSource.insertSeller(params.toJson());
@@ -50,7 +50,7 @@ class SellerRepositoryImpl implements SellerRepository {
   @override
   Future<Either<Failure, String>> uploadLogo(Params params) async {
     if (!await networkInfo.isConnected)
-      return Left(ServerFailure(message: NO_INTERNET_CONNECTION));
+      return Left(ServerFailure(message: noInternetConnection));
 
     try {
       final result = await dataSource.uploadLogo(params.param);

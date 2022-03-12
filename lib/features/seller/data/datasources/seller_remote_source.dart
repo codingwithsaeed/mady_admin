@@ -6,7 +6,6 @@ import 'package:injectable/injectable.dart';
 import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/features/seller/data/models/seller_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:mady_admin/features/seller/domain/entities/add_seller.dart';
 
 abstract class SellerRemoteSource {
   ///Performs a POST request to [http://192.168.1.2/mady/webservice_admin.php]

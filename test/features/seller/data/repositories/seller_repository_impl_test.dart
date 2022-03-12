@@ -31,7 +31,7 @@ void main() {
     const tParams = Params({'action': 'get_sellers_list'});
 
     final tSellersList1 = [
-      Seller(
+      const Seller(
           sid: "2",
           storeName: "2 عطر آویشن",
           phone: "+989136581815",
@@ -46,7 +46,7 @@ void main() {
           expire: "1400-12-23",
           hasSpecial: "0",
           specialCount: "0"),
-      Seller(
+      const Seller(
           sid: "1",
           storeName: "عطر آویشن",
           phone: "+989136581814",
@@ -74,7 +74,7 @@ void main() {
         //act
         final result = await sut.getSellers(tParams);
         //assert
-        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        expect(result, Left(ServerFailure(message: noInternetConnection)));
         verify(networkInfo.isConnected);
         verifyNoMoreInteractions(networkInfo);
       },
@@ -116,11 +116,11 @@ void main() {
         //arrange
         when(networkInfo.isConnected).thenAnswer((_) async => true);
         when(dataSource.getSellers(any))
-            .thenThrow(ServerException(message: NOT_FOUND_EX));
+            .thenThrow(ServerException(message: notFoundException));
         //act
         final result = await sut.getSellers(tParams);
         //assert
-        expect(result, Left(ServerFailure(message: NOT_FOUND_EX)));
+        expect(result, Left(ServerFailure(message: notFoundException)));
       },
     );
   });
@@ -145,7 +145,7 @@ void main() {
         //act
         final result = await sut.insertSeller(tParams);
         //assert
-        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        expect(result, Left(ServerFailure(message: noInternetConnection)));
         verify(networkInfo.isConnected);
         verifyNoMoreInteractions(networkInfo);
       },
@@ -172,11 +172,11 @@ void main() {
         //arrange
         when(networkInfo.isConnected).thenAnswer((_) async => true);
         when(dataSource.insertSeller(any))
-            .thenThrow(ServerException(message: NOT_FOUND_EX));
+            .thenThrow(ServerException(message: notFoundException));
         //act
         final result = await sut.insertSeller(tParams);
         //assert
-        expect(result, Left(ServerFailure(message: NOT_FOUND_EX)));
+        expect(result, Left(ServerFailure(message: notFoundException)));
       },
     );
   });
@@ -197,7 +197,7 @@ void main() {
         //act
         final result = await sut.uploadLogo(tParams);
         //assert
-        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        expect(result, Left(ServerFailure(message: noInternetConnection)));
         verify(networkInfo.isConnected);
         verifyNoMoreInteractions(networkInfo);
       },
@@ -224,11 +224,11 @@ void main() {
         //arrange
         when(networkInfo.isConnected).thenAnswer((_) async => true);
         when(dataSource.uploadLogo(any))
-            .thenThrow(ServerException(message: NOT_FOUND_EX));
+            .thenThrow(ServerException(message: notFoundException));
         //act
         final result = await sut.uploadLogo(tParams);
         //assert
-        expect(result, Left(ServerFailure(message: NOT_FOUND_EX)));
+        expect(result, Left(ServerFailure(message: notFoundException)));
       },
     );
   });

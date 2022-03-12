@@ -8,7 +8,7 @@ import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
   List<Request> requests = [
-    Request(
+    const Request(
         srid: "2",
         storeName: "2 عطر آویشن",
         phone: "+989136581815",
@@ -19,7 +19,7 @@ void main() {
         lat: "32",
         lng: "51",
         pocket: "1"),
-    Request(
+    const Request(
         srid: "1",
         storeName: "عطر آویشن",
         phone: "+989136581814",

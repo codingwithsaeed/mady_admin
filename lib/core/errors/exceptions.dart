@@ -1,4 +1,4 @@
-const NOT_FOUND_EX = 'Not found';
+const notFoundException = 'Not found';
 
 class ServerException implements Exception {
   final String message;

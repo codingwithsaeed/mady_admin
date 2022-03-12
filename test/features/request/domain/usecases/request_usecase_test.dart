@@ -23,7 +23,7 @@ void main() {
 
   group('Usecase Test', () {
     List<Request> requests = [
-      Request(
+      const Request(
           srid: "1",
           storeName: "عطر آویشن",
           phone: "+989136581814",
@@ -34,7 +34,7 @@ void main() {
           lat: "32",
           lng: "51",
           pocket: "1"),
-      Request(
+      const Request(
           srid: "2",
           storeName: "2 عطر آویشن",
           phone: "+989136581815",
@@ -101,13 +101,13 @@ void main() {
       () async {
         //arrange
         when(repository.verifyRequest(any)).thenAnswer(
-            (_) async => Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+            (_) async => Left(ServerFailure(message: noInternetConnection)));
         //act
         final result = await sut.verifyRequest(
           const Params({'action': 'accept_seller', 'srid': '7'}),
         );
         //assert
-        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        expect(result, Left(ServerFailure(message: noInternetConnection)));
       },
     );
   });

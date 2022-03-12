@@ -49,11 +49,11 @@ void main() {
       () async {
         //arrange
         when(repository.getAllOffers(any)).thenAnswer(
-            (_) async => Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+            (_) async => Left(ServerFailure(message: noInternetConnection)));
         //act
         final result = await sut.getAllOffers(tParams);
         //assert
-        expect(result, Left(ServerFailure(message: NO_INTERNET_CONNECTION)));
+        expect(result, Left(ServerFailure(message: noInternetConnection)));
         verify(repository.getAllOffers(tParams));
         verifyNoMoreInteractions(repository);
       },

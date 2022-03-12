@@ -9,7 +9,7 @@ import '../../../../fixtures/fixture_reader.dart';
 void main() {
   group('From JSon', () {
     final tSellersList = [
-      Seller(
+      const Seller(
           sid: "6",
           storeName: "9 عطر آویشن",
           phone: "+989136581822",
@@ -24,7 +24,7 @@ void main() {
           expire: "1400-12-23",
           hasSpecial: "0",
           specialCount: "0"),
-      Seller(
+      const Seller(
           sid: "5",
           storeName: "8 عطر آویشن",
           phone: "+989136581821",

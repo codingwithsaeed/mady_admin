@@ -59,10 +59,11 @@ class _SellersPageImplState extends State<SellersPageImpl>
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: null,
         onPressed: (() async {
-          final bool? isAdded =
-              await Navigator.pushNamed(context, AddSellerPage.id) as bool;
-          if (isAdded!) refreshData();
+          dynamic isAdded =
+              await Navigator.pushNamed(context, AddSellerPage.id);
+          if (isAdded != null && isAdded as bool) refreshData();
         }),
         child: const Icon(Icons.add),
       ),
