@@ -2,9 +2,9 @@
 // in mady_admin/test/features/splash/data/repositories/splash_repository_impl_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
-import 'package:mady_admin/core/network/network_info.dart' as _i4;
+import 'package:mady_admin/core/network/network_info.dart' as _i3;
 import 'package:mady_admin/features/splash/data/datasources/splash_datasource.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;
@@ -26,23 +26,18 @@ class MockSplashDataSource extends _i1.Mock implements _i2.SplashDataSource {
   MockSplashDataSource() {
     _i1.throwOnMissingStub(this);
   }
-
-  @override
-  _i3.Future<bool> checkIsUserLoggedIn() =>
-      (super.noSuchMethod(Invocation.method(#checkIsUserLoggedIn, []),
-          returnValue: Future<bool>.value(false)) as _i3.Future<bool>);
 }
 
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i4.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i3.NetworkInfo {
   MockNetworkInfo() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<bool> get isConnected =>
+  _i4.Future<bool> get isConnected =>
       (super.noSuchMethod(Invocation.getter(#isConnected),
-          returnValue: Future<bool>.value(false)) as _i3.Future<bool>);
+          returnValue: Future<bool>.value(false)) as _i4.Future<bool>);
 }

@@ -21,13 +21,10 @@ class SplashRepositoryImpl implements SplashRepository {
   Future<Either<Failure, bool>> checkLogin() async {
     try {
       if (!await networkInfo.isConnected)
-        return Left(
-          ServerFailure(message: noInternetConnection),
-        );
-
-      return Right(await dataSource.checkIsUserLoggedIn());
-    } on SharedException catch (e) {
-      return Left(ServerFailure(message: e.message));
+        return Left(ServerFailure(message: noInternetConnection));
+      return Right(dataSource.checkIsUserLoggedIn()!);
+    } on SharedException {
+      return const Right(false);
     }
   }
 }

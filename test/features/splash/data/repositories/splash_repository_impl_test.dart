@@ -30,7 +30,7 @@ void main() {
       () async {
         //arrange
         when(networkInfo.isConnected).thenAnswer((_) async => false);
-        when(dataSource.checkIsUserLoggedIn()).thenAnswer((_) async => true);
+        when(dataSource.checkIsUserLoggedIn()).thenAnswer((_) => true);
         //act
         final result = await sut.checkLogin();
         //assert
@@ -45,7 +45,7 @@ void main() {
       () async {
         //arrange
         when(networkInfo.isConnected).thenAnswer((_) async => true);
-        when(dataSource.checkIsUserLoggedIn()).thenAnswer((_) async => true);
+        when(dataSource.checkIsUserLoggedIn()).thenAnswer((_) => true);
         //act
         final result = await sut.checkLogin();
         //assert
@@ -56,7 +56,7 @@ void main() {
     );
 
     test(
-      "Should Reutrn [ServerFailure] if data source throws a [SharedException]",
+      "Should Reutrn false if data source throws a [SharedException]",
       () async {
         //arrange
         when(networkInfo.isConnected).thenAnswer((_) async => true);
@@ -65,7 +65,7 @@ void main() {
         //act
         final result = await sut.checkLogin();
         //assert
-        expect(result, Left(ServerFailure(message: notFoundException)));
+        expect(result, const Right(false));
       },
     );
   });
