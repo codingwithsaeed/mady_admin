@@ -2,6 +2,7 @@
 
 import 'package:injectable/injectable.dart';
 import 'package:mady_admin/core/errors/exceptions.dart';
+import 'package:mady_admin/core/models/base_model.dart';
 import 'package:mady_admin/core/network/network_info.dart';
 import 'package:mady_admin/features/login/data/repositories/login_repository_impl.dart';
 import 'package:mady_admin/features/offer/data/datasources/offer_remote_source.dart';
@@ -29,5 +30,11 @@ class OfferRepositoryImpl implements OfferRepository {
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
     }
+  }
+
+  @override
+  Future<Either<Failure, BaseModel<String>>> addOffer(Params params) {
+    // TODO: implement addOffer
+    throw UnimplementedError();
   }
 }

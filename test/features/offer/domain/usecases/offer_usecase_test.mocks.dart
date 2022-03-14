@@ -6,6 +6,7 @@ import 'dart:async' as _i4;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mady_admin/core/errors/failures.dart' as _i5;
+import 'package:mady_admin/core/models/base_model.dart' as _i8;
 import 'package:mady_admin/core/usecases/usecase.dart' as _i7;
 import 'package:mady_admin/features/offer/domain/entities/offer.dart' as _i6;
 import 'package:mady_admin/features/offer/domain/repositories/offer_repository.dart'
@@ -39,4 +40,12 @@ class MockOfferRepository extends _i1.Mock implements _i3.OfferRepository {
           returnValue: Future<_i2.Either<_i5.Failure, List<_i6.Offer>>>.value(
               _FakeEither_0<_i5.Failure, List<_i6.Offer>>())) as _i4
           .Future<_i2.Either<_i5.Failure, List<_i6.Offer>>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i8.BaseModel<String>>> addOffer(
+          _i7.Params? params) =>
+      (super.noSuchMethod(Invocation.method(#addOffer, [params]),
+              returnValue:
+                  Future<_i2.Either<_i5.Failure, _i8.BaseModel<String>>>.value(
+                      _FakeEither_0<_i5.Failure, _i8.BaseModel<String>>()))
+          as _i4.Future<_i2.Either<_i5.Failure, _i8.BaseModel<String>>>);
 }

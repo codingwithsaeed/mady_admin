@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mady_admin/features/offer/domain/entities/add_offer.dart';
 import 'package:mady_admin/features/offer/domain/entities/offer.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
@@ -39,6 +40,47 @@ void main() {
         final result = Offer.fromJson(jsonDecode(json));
         //assert
         expect(result, tOffer);
+      },
+    );
+  });
+
+  group('Testing AddOffer toJSon', () {
+    final tOffer = AddOffer(
+      sellerPhone: "09136581814",
+      content: "بسته ده تایی گوشت بوقلمون",
+      date: "1400-12-23",
+      sTime: "14:00",
+      eTime: "23:59",
+      price: "30000",
+      percent: "50",
+      currentPrice: "15000",
+      picture: "http://192.168.1.2/mady/uploads/offerpics/meat.jpeg",
+      count: "20",
+      isSpecial: "1",
+      status: "0",
+    );
+
+    test(
+      "Should return a solid offer object",
+      () async {
+        //act
+        final result = tOffer.toJson();
+        //assert
+        expect(result, {
+          "action": "insert_offer",
+          "sellerPhone": "09136581814",
+          "content": "بسته ده تایی گوشت بوقلمون",
+          "date": "1400-12-23",
+          "sTime": "14:00",
+          "eTime": "23:59",
+          "price": "30000",
+          "percent": "50",
+          "currentPrice": "15000",
+          "picture": "http://192.168.1.2/mady/uploads/offerpics/meat.jpeg",
+          "count": "20",
+          "isSpecial": "1",
+          "status": "0",
+        });
       },
     );
   });
