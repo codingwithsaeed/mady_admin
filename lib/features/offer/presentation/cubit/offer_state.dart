@@ -28,3 +28,14 @@ class OfferError extends OfferState {
   @override
   List<Object> get props => [message];
 }
+
+class OfferPictureLoaded extends OfferState {
+  final String link;
+
+  const OfferPictureLoaded(this.link);
+
+  @override
+  List<Object> get props => [link];
+}
+
+class AddOfferSuccess extends OfferState {}

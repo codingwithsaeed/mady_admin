@@ -19,4 +19,7 @@ class OfferUsecase {
   Future<Either<Failure, BaseModel<String>>> addOffer(Params params) async {
     return await repository.addOffer(params);
   }
+
+  Future<Either<Failure, String>> uploadPicture(Params params) async =>
+      await repository.uploadPicture(params);
 }

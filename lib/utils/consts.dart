@@ -70,4 +70,22 @@ class Consts {
   ];
 
   static List<DropdownMenuItem<String>> get pockets => _pockets;
+
+  static const List<String> _offerTypesTitle = ["معمولی", "ویژه"];
+
+  static List<String> get offerTypesTitle => _offerTypesTitle;
+
+  static final List<DropdownMenuItem<String>> offerTypes = [
+    DropdownMenuItem(child: Text(offerTypesTitle[0]), value: "0"),
+    DropdownMenuItem(child: Text(offerTypesTitle[1]), value: "1"),
+  ];
+
+  static const List<String> _offerStatusTitle = ["پیش نمایش برای فروشنده", "انتشار"];
+
+  static List<String> get offerStatusTitle => _offerStatusTitle;
+
+  static final List<DropdownMenuItem<String>> offerStatus = [
+    DropdownMenuItem(child: Text(offerStatusTitle[0]), value: "0"),
+    DropdownMenuItem(child: Text(offerStatusTitle[1]), value: "1"),
+  ];
 }

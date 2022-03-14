@@ -7,4 +7,5 @@ import 'package:mady_admin/features/offer/domain/entities/offer.dart';
 abstract class OfferRepository {
   Future<Either<Failure, List<Offer>>> getAllOffers(Params params);
   Future<Either<Failure, BaseModel<String>>> addOffer(Params params);
+  Future<Either<Failure, String>> uploadPicture(Params params);
 }

@@ -16,6 +16,10 @@ abstract class OfferRemoteSource {
   ///Performs a POST request to [https://codingwithsaeed.ir/api/mady/webservice_admin.php]
   ///Throws a [ServerException] on all error codes
   Future<BaseModel<String>> addOffer(Map<String, dynamic> params);
+
+  /// Perform a POST request to [https://codingwithsaeed.ir/api/mady/webservice_admin.php]
+  ///Throws a [ServerException] on all error codes
+  Future<String> uploadPicture(Map<String, dynamic> params);
 }
 
 @Injectable(as: OfferRemoteSource)
@@ -45,6 +49,18 @@ class OfferRemoteSourceImpl implements OfferRemoteSource {
         case -2:
           throw ServerException(message: jsonDecode(result.body)['error']);
       }
+    }
+    throw ServerException(message: 'error code: ${result.statusCode}');
+  }
+
+  @override
+  Future<String> uploadPicture(Map<String, dynamic> params) async {
+    final result = await client.post(Consts.currentUrl, body: params);
+    if (result.statusCode == 200) {
+      if (jsonDecode(result.body)['success'] == 1)
+        return jsonDecode(result.body)['data'];
+      else
+        throw ServerException(message: 'مشکلی در آپلود لوگو پیش آمد.');
     }
     throw ServerException(message: 'error code: ${result.statusCode}');
   }

@@ -27,6 +27,7 @@ dependencies:
   dropdown_button2: ^1.2.1
   image_picker: ^0.8.4+10
   shared_preferences: ^2.0.13
+  persian_datetime_picker: ^2.4.0
 
 dev_dependencies:
   flutter_test:

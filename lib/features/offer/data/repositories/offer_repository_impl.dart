@@ -20,12 +20,12 @@ class OfferRepositoryImpl implements OfferRepository {
   OfferRepositoryImpl(this.dataSource, this.networkInfo);
 
   @override
-  Future<Either<Failure, List<Offer>>> getAllOffers(
-      Params params) async {
+  Future<Either<Failure, List<Offer>>> getAllOffers(Params params) async {
     try {
       if (!await networkInfo.isConnected)
         return Left(ServerFailure(message: noInternetConnection));
-      final result = await dataSource.getAllOffers({'action': 'get_all_offers'});
+      final result =
+          await dataSource.getAllOffers({'action': 'get_all_offers'});
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
@@ -38,6 +38,19 @@ class OfferRepositoryImpl implements OfferRepository {
       if (!await networkInfo.isConnected)
         return Left(ServerFailure(message: noInternetConnection));
       final result = await dataSource.addOffer(params.param);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> uploadPicture(Params params) async {
+    if (!await networkInfo.isConnected)
+      return Left(ServerFailure(message: noInternetConnection));
+
+    try {
+      final result = await dataSource.uploadPicture(params.param);
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));

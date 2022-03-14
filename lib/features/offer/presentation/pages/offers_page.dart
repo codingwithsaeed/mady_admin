@@ -1,7 +1,6 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mady_admin/core/utils/show_loading.dart';
 import 'package:mady_admin/core/utils/show_snackbar.dart';
 import 'package:mady_admin/core/x/x_widgets.dart';
 import 'package:mady_admin/di/injection.dart';
@@ -9,6 +8,8 @@ import 'package:mady_admin/features/offer/domain/entities/offer.dart';
 import 'package:mady_admin/features/offer/presentation/cubit/offer_cubit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mady_admin/features/offer/presentation/pages/single_offer_page.dart';
+
+import 'add_offer_page.dart';
 
 class OffersPage extends StatelessWidget {
   const OffersPage({Key? key}) : super(key: key);
@@ -57,17 +58,17 @@ class _OffersPageImplState extends State<OffersPageImpl>
       floatingActionButton: FloatingActionButton(
         heroTag: null,
         onPressed: (() async {
-          // final dynamic isAdded =
-          //     await Navigator.pushNamed(context, AddOfferPage.id);
-          // if (isAdded != null && isAdded as bool) refreshData();
-          Fluttertoast.showToast(
-              msg: "به زودی",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 20.0);
+          final dynamic isAdded =
+              await Navigator.pushNamed(context, AddOfferPage.id);
+          if (isAdded != null && isAdded as bool) refreshData();
+          // Fluttertoast.showToast(
+          //     msg: "به زودی",
+          //     toastLength: Toast.LENGTH_SHORT,
+          //     gravity: ToastGravity.BOTTOM,
+          //     timeInSecForIosWeb: 1,
+          //     backgroundColor: Colors.red,
+          //     textColor: Colors.white,
+          //     fontSize: 20.0);
         }),
         child: const Icon(Icons.add),
       ),
