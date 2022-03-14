@@ -8,12 +8,18 @@ import 'package:mady_admin/features/login/presentation/cubit/login_cubit.dart';
 import 'package:mady_admin/di/injection.dart';
 import 'package:mady_admin/main_page.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   static const String id = 'LoginPage';
-  LoginPage({Key? key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
-  String? username;
-  String? password;
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String username = '';
+
+  String password = '';
 
   @override
   Widget build(BuildContext context) {

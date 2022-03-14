@@ -5,14 +5,13 @@ import 'package:mady_admin/core/errors/exceptions.dart';
 import 'package:mady_admin/core/usecases/usecase.dart';
 import 'package:mady_admin/features/login/data/models/admin_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:mady_admin/utils/consts.dart';
 
 abstract class LoginRemoteDataSource {
-  /// Calls the http://192.168.1.2/mady/webservice_admin.php.
+  /// Perform a POST request to [https://codingwithsaeed.ir/api/mady/webservice_admin.php]
   /// Throws a [ServerException] for all error codes.
   Future<AdminModel> authenticate(Params params);
 }
-
-final url = Uri.parse('https://codingwithsaeed.ir/api/mady/webservice_admin.php');
 
 @Injectable(as: LoginRemoteDataSource)
 class LoginRemoteDataSourceImpl implements LoginRemoteDataSource {
@@ -22,7 +21,8 @@ class LoginRemoteDataSourceImpl implements LoginRemoteDataSource {
 
   @override
   Future<AdminModel> authenticate(Params params) async {
-    final result = await client.post(url, body: params.param);
+    final result =
+        await client.post(Consts.currentUrl, body: params.param);
     if (result.statusCode == 200) {
       AdminModel model = AdminModel.fromJson(jsonDecode(result.body));
       if (model.success == 1) {

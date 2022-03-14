@@ -15,15 +15,15 @@ class LoginCubit extends Cubit<LoginState> {
   final LoginUsecase loginUsecase;
   LoginCubit(this.loginUsecase) : super(const LoginInitial());
 
-  Future<void> doAuth(String? username, String? password) async {
+  Future<void> doAuth(String username, String password) async {
     emit(const LoginLoading());
 
-    if (username == null || username == '') {
+    if (username.isEmpty) {
       emit(const LoginError('نام کاربری را وارد کنید'));
       return;
     }
 
-    if (password == null || password == '') {
+    if (password.isEmpty) {
       emit(const LoginError('گذرواژه را وارد کنید'));
       return;
     }

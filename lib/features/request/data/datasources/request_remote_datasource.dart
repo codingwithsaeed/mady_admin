@@ -8,18 +8,17 @@ import 'package:mady_admin/features/login/data/repositories/login_repository_imp
 import 'package:mady_admin/features/request/data/models/request_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:mady_admin/features/request/domain/entities/request.dart';
+import 'package:mady_admin/utils/consts.dart';
 
 abstract class RequestRemoteSource {
-  /// Calls the http://192.168.1.2/mady/webservice_admin.php.
+  /// Perform a POST request to [https://codingwithsaeed.ir/api/mady/webservice_admin.php]
   /// Throws a [ServerException] for all error codes.
   Future<RequestModel> getRequests();
 
-  /// Calls the http://192.168.1.2/mady/webservice_admin.php.
+  /// Perform a POST request to [https://codingwithsaeed.ir/api/mady/webservice_admin.php]
   /// Throws a [ServerException] for all error codes.
   Future<bool> verifyRequest(Map<String, dynamic> params);
 }
-
-final url = Uri.parse('https://codingwithsaeed.ir/api/mady/webservice_admin.php');
 
 @Injectable(as: RequestRemoteSource)
 class RequestRemoteSourceImpl implements RequestRemoteSource {
@@ -28,8 +27,8 @@ class RequestRemoteSourceImpl implements RequestRemoteSource {
   RequestRemoteSourceImpl({required this.client});
   @override
   Future<RequestModel> getRequests() async {
-    final result =
-        await client.post(url, body: {'action': 'get_seller_requests'});
+    final result = await client.post(Consts.currentUrl,
+        body: {'action': 'get_seller_requests'});
     if (result.statusCode == 200) {
       RequestModel model = RequestModel.fromJson(jsonDecode(result.body));
       if (model.success == 1)
@@ -45,7 +44,8 @@ class RequestRemoteSourceImpl implements RequestRemoteSource {
 
   @override
   Future<bool> verifyRequest(Map<String, dynamic> params) async {
-    final result = await client.post(url, body: params);
+    final result =
+        await client.post(Consts.currentUrl, body: params);
     if (result.statusCode == 200) {
       if (jsonDecode(result.body)['success'] == 1) return true;
       throw ServerException(message: notFoundException);
