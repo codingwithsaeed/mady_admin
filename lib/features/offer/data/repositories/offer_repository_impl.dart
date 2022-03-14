@@ -33,8 +33,14 @@ class OfferRepositoryImpl implements OfferRepository {
   }
 
   @override
-  Future<Either<Failure, BaseModel<String>>> addOffer(Params params) {
-    // TODO: implement addOffer
-    throw UnimplementedError();
+  Future<Either<Failure, BaseModel<String>>> addOffer(Params params) async {
+    try {
+      if (!await networkInfo.isConnected)
+        return Left(ServerFailure(message: noInternetConnection));
+      final result = await dataSource.addOffer(params.param);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    }
   }
 }
