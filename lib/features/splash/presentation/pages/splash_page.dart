@@ -50,7 +50,10 @@ class _SplashPageImplState extends State<SplashPageImpl> {
       body: BlocConsumer<SplashCubit, SplashState>(
         listener: (context, state) {
           if (state is SplashError)
-            showSnackbar(context, message: state.message, color: Colors.white);
+            showSnackbar(context,
+                message: state.message,
+                color: Colors.white,
+                textColor: Colors.black);
           if (state is SplashLoggedIn)
             Navigator.pushReplacementNamed(context, MainPage.id);
           if (state is SplashNotLoggedIn)
@@ -86,7 +89,7 @@ class _SplashPageImplState extends State<SplashPageImpl> {
         },
         child: const Text(
           'تلاش مجدد',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
       );
 

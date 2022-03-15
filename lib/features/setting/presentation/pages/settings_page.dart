@@ -19,16 +19,19 @@ class SettingsPage extends StatelessWidget {
           ),
           const Center(
             child: Text(
-              'به زودی ...',
+              'تو ورژن های بعدی ایشالا',
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w800),
             ),
           ),
           XButton(
-              color: Colors.red,
-              onPressed: () {
-                getIt<SharedPreferences>().setBool('LOGIN', false);
-                Navigator.pushReplacementNamed(context, LoginPage.id);
-              },
-              title: 'خروج از حساب کاربری'),
+            color: Colors.red,
+            onPressed: () {
+              getIt<SharedPreferences>().setBool('LOGIN', false);
+              Navigator.pushReplacementNamed(context, LoginPage.id);
+            },
+            title: 'خروج از حساب کاربری',
+            fontSize: 16.0,
+          ),
         ],
       ),
     );

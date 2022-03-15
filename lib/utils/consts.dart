@@ -1,13 +1,14 @@
+// ignore_for_file: unused_field
+
 import 'package:flutter/material.dart';
 
 class Consts {
-  // ignore: unused_field
   static const _online =
       'https://codingwithsaeed.ir/api/mady/webservice_admin.php';
 
   static const _local = 'http://192.168.1.2/mady/webservice_admin.php';
 
-  static Uri get currentUrl => Uri.parse(_local);
+  static Uri get currentUrl => Uri.parse(_online);
 
   static const List<String> _pocketTitles = [
     "یک روزه، یک آگهی",
