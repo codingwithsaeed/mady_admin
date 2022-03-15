@@ -6,7 +6,6 @@ import 'package:mady_admin/core/x/x_widgets.dart';
 import 'package:mady_admin/di/injection.dart';
 import 'package:mady_admin/features/offer/domain/entities/offer.dart';
 import 'package:mady_admin/features/offer/presentation/cubit/offer_cubit.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mady_admin/features/offer/presentation/pages/single_offer_page.dart';
 
 import 'add_offer_page.dart';

@@ -8,7 +8,6 @@ import 'package:mady_admin/core/utils/utils.dart';
 import 'package:mady_admin/core/x/x_widgets.dart';
 import 'package:mady_admin/features/offer/domain/entities/add_offer.dart';
 import 'package:mady_admin/features/offer/presentation/cubit/offer_cubit.dart';
-import 'package:mady_admin/features/seller/presentation/cubit/seller_cubit.dart';
 import 'package:mady_admin/di/injection.dart';
 import 'package:mady_admin/utils/consts.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
@@ -59,6 +58,8 @@ class _AddOfferPageState extends State<AddOfferPage> {
   }
 
   Widget cubitBuilder(context, state) {
+    if (state is OfferLoading)
+      return const Center(child: CircularProgressIndicator(color: Colors.red));
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -118,6 +119,7 @@ class _AddOfferPageState extends State<AddOfferPage> {
                         sTime = pickedTime;
                         offer.sTime = pickedTime;
                       });
+                      FocusManager.instance.primaryFocus!.unfocus();
                     },
                     title: sTime,
                     color: Colors.red,
@@ -135,6 +137,7 @@ class _AddOfferPageState extends State<AddOfferPage> {
                         eTime = pickedTime;
                         offer.eTime = pickedTime;
                       });
+                      FocusManager.instance.primaryFocus!.unfocus();
                     },
                     title: eTime,
                     color: Colors.red,

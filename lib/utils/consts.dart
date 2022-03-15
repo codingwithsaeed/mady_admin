@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Consts {
+  // ignore: unused_field
   static const _online =
       'https://codingwithsaeed.ir/api/mady/webservice_admin.php';
 

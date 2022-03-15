@@ -11,5 +11,5 @@ class Utils {
       ));
 
   static String numberFormatter(String number) =>
-      NumberFormat('#,##,000').format(double.parse(number));
+      NumberFormat('#,###,000').format(double.parse(number));
 }
