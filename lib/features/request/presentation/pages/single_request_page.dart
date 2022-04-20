@@ -44,7 +44,8 @@ class _SingleRequestPageState extends State<SingleRequestPage> {
                 setState(() => isLoading = false);
               }
               if (state is VerifyRequestLoaded) Navigator.pop(context);
-              if (state is RequestError) showSnackbar(context, message:  state.message);
+              if (state is RequestError)
+                showSnackbar(context, message: state.message);
             }
           },
           builder: (context, state) {
@@ -94,6 +95,10 @@ class _SingleRequestPageState extends State<SingleRequestPage> {
                   ),
                   zoom: 16.8,
                 ),
+                markers: {}..add(Marker(
+                    markerId: const MarkerId('1'),
+                    position: LatLng(
+                        double.parse(request.lat), double.parse(request.lng)))),
               ),
             ),
           ),

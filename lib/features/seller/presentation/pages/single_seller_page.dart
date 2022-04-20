@@ -63,6 +63,10 @@ class SingleSellerPage extends StatelessWidget {
                   ),
                   zoom: 16.8,
                 ),
+                markers: {}..add(Marker(
+                    markerId: const MarkerId('1'),
+                    position: LatLng(
+                        double.parse(seller.lat), double.parse(seller.lng)))),
               ),
             ),
           ),
