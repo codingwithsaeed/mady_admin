@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mady_admin/core/utils/show_loading.dart';
 import 'package:mady_admin/core/utils/show_snackbar.dart';
 import 'package:mady_admin/core/utils/utils.dart';
 import 'package:mady_admin/core/x/x_widgets.dart';
@@ -25,6 +26,7 @@ class _AddOfferPageState extends State<AddOfferPage> {
   String date = 'انتخاب تاریخ';
   String sTime = 'زمان شروع';
   String eTime = 'زمان پایان';
+    bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,17 @@ class _AddOfferPageState extends State<AddOfferPage> {
   }
 
   void cubitListener(context, state) {
-    if (state is OfferPictureLoaded) {
+    if (state is OfferLoading) {
+      if (!isLoading) {
+        showLoading(context);
+        setState(() => isLoading = true);
+      }
+    } else {
+      if (isLoading) {
+        Navigator.of(context).pop();
+        setState(() => isLoading = false);
+      }
+      if (state is OfferPictureLoaded) {
       FocusManager.instance.primaryFocus!.unfocus();
       setState(() => offer.picture = state.link);
       showSnackbar(context, message: 'تصویر آپلود شد.', color: Colors.green);
@@ -55,11 +67,10 @@ class _AddOfferPageState extends State<AddOfferPage> {
       showSnackbar(context, message: state.message);
     }
     if (state is AddOfferSuccess) Navigator.pop(context, true);
+    } 
   }
 
   Widget cubitBuilder(context, state) {
-    if (state is OfferLoading)
-      return const Center(child: CircularProgressIndicator(color: Colors.red));
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
