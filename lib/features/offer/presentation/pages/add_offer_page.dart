@@ -90,8 +90,8 @@ class _AddOfferPageState extends State<AddOfferPage> {
                 Jalali? picked = await showPersianDatePicker(
                   context: context,
                   initialDate: Jalali.now(),
-                  firstDate: Jalali(1400, 1),
-                  lastDate: Jalali(1400, 12, 29),
+                  firstDate: Jalali(1401, 1),
+                  lastDate: Jalali(1401, 12, 29),
                 );
                 String pickedDate =
                     picked!.formatCompactDate().replaceAll("/", "-");
